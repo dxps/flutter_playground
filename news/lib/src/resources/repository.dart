@@ -3,29 +3,58 @@ import 'news_api_provider.dart';
 import 'news_db_provider.dart';
 import '../models/item_model.dart';
 
+final NewsDbProvider dbProvider = NewsDbProvider();
+
 //
 class Repository {
   //
 
-  NewsDbProvider dbProvider = NewsDbProvider();
-  NewsApiProvider apiProvider = NewsApiProvider();
+  List<Source> sources = <Source>[
+    dbProvider,
+    NewsApiProvider(),
+  ];
+
+  List<Cache> caches = <Cache>[
+    dbProvider,
+  ];
 
   Future<List<int>> fetchTopIds() {
     //
-    // Just returning the API result, no cache used here.
-    return apiProvider.fetchTopIds();
+    // Fow now, just use the second provider (api provider)
+    // as db provider does not implemented it yet.
+    return sources[1].fetchTopIds();
   }
 
   Future<ItemModel> fetchItem(int id) async {
     //
-    var item = await dbProvider.fetchItem(id);
-    if (item != null) {
-      return item; // the cached entry found
+    ItemModel item;
+    Source source;
+    for (source in sources) {
+      item = await source.fetchItem(id);
+      if (item != null) {
+        break; // item found, exit the for loop
+      }
     }
-    item = await apiProvider.fetchItem(id);
-    dbProvider.addItem(item);
+    for (var cache in caches) {
+      cache.addItem(item);
+    }
     return item;
   }
 
   //
+}
+
+///
+abstract class Source {
+  //
+
+  Future<List<int>> fetchTopIds();
+  Future<ItemModel> fetchItem(int id);
+}
+
+///
+abstract class Cache {
+  //
+
+  Future<int> addItem(ItemModel item);
 }
