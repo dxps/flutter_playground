@@ -12,7 +12,7 @@ class StoriesBloc {
   final _itemsFetcher = PublishSubject<int>();
   final _itemsOutput = BehaviorSubject<Map<int, Future<ItemModel>>>();
 
-  // --- Getters to Streams ---
+  // --- Streams Getters ---
 
   /// The stream of top stories ids.
   Observable<List<int>> get topIds => _topIds.stream;
@@ -20,7 +20,7 @@ class StoriesBloc {
   /// The stream of eventually received items.
   Observable<Map<int, Future<ItemModel>>> get items => _itemsOutput.stream;
 
-  // Getters to Sinks
+  // --- Sinks Getters ---
 
   /// fetchItem(itemId) submits the provided item id to items fetcher. Nothing is returned.
   Function(int) get fetchItem => _itemsFetcher.sink.add;
