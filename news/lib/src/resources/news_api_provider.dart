@@ -21,10 +21,10 @@ class NewsApiProvider implements Source {
 
   Future<ItemModel> fetchItem(int id) async {
     //
-    print('(dbg) [NewsApiProvider] fetchItem($id) > Getting $_endpointRoot/item/$id.json ');
+    // print('(dbg) [NewsApiProvider] fetchItem($id) > Getting $_endpointRoot/item/$id.json ');
     final response = await client.get('$_endpointRoot/item/$id.json');
     final responseBody = response.body;
-    print('(dbg) [NewsApiProvider] fetchItem($id) > response.body=$responseBody');
+    // print('(dbg) [NewsApiProvider] fetchItem($id) > response.body=$responseBody');
     final parsedJson = json.decode(responseBody);
     return ItemModel.fromJson(parsedJson);
   }

@@ -57,7 +57,7 @@ class NewsDbProvider implements Source, Cache {
     final maps = await db.query("items", columns: null, where: "id = ?", whereArgs: [id]);
     if (maps.length > 0) {
       final entry = maps.first;
-      print('(dbg) [NewsDbProvider] fetchItem($id) > Found with title "${entry['title']}"');
+      //print('(dbg) [NewsDbProvider] fetchItem($id) > Found title "${entry['title']}"');
       return ItemModel.fromDb(entry);
     } else {
       return null;
@@ -66,11 +66,13 @@ class NewsDbProvider implements Source, Cache {
 
   Future<int> addItem(ItemModel item) {
     //
-    return db.insert(
-      "items",
-      item.toMapForDb(),
-      conflictAlgorithm: ConflictAlgorithm.ignore
-    );
+    return db.insert("items", item.toMapForDb(),
+        conflictAlgorithm: ConflictAlgorithm.ignore);
+  }
+
+  Future<int> clear() {
+    //
+    return db.delete("items");
   }
 
   //
