@@ -28,15 +28,15 @@ class CommentsBloc {
     return ScanStreamTransformer<int, Map<int, Future<ItemModel>>>(
         // the accumulator
         (Map<int, Future<ItemModel>> cache, int id, int index) {
-          print ('_commentsTransformer > index=$index');
+      print('_commentsTransformer > index=$index');
       cache[id] = _repo.fetchItem(id);
       cache[id].then((ItemModel item) {
         item.kids.forEach((kidId) => fetchItemWithComments(kidId));
       });
       return cache;
-    }, <int, Future<ItemModel>>{
-      // the seed (inited as an empty map, it will be used as a cache)
-    });
+    },
+        // the seed (used as a cache)
+        <int, Future<ItemModel>>{}); // inited as an empty map
   }
 
   dispose() {

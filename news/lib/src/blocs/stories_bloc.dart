@@ -40,15 +40,15 @@ class StoriesBloc {
 
   _itemsTransformer() {
     return ScanStreamTransformer(
+      // the accumulator (in cache)
       (Map<int, Future<ItemModel>> cache, int id, int index) {
         //
-        print('_itemsTransformer > index $index | id $id');
+        // print('StoriesBloc > _itemsTransformer > index $index | id $id');
         cache[id] = _repo.fetchItem(id);
         return cache;
       },
-      <int, Future<ItemModel>>{
-        // the accumulator (cache)
-      },
+      // the seed (of cache)
+      <int, Future<ItemModel>>{}, // inited as an empty map
     );
   }
 

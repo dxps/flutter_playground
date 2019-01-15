@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import '../blocs/comments_provider.dart';
 import '../models/item_model.dart';
-import '../widgets/comments.dart';
+import '../widgets/comment.dart';
 
 //
 class NewsDetail extends StatelessWidget {
