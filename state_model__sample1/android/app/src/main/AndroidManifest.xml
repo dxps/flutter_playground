@@ -14,7 +14,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="state_mgmt_comp"
+        android:label="StateModel - sample 1"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

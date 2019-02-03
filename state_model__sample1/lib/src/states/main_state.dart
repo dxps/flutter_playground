@@ -1,8 +1,8 @@
-import './base_smc.dart';
-export './base_smc.dart';
+import './state_model.dart';
+export './state_model.dart';
 
 /// Main SMC.
-class MainSmc extends BaseSmc {
+class MainState extends StateModel {
   //
   final String stateId = "MainState";
 
@@ -12,13 +12,13 @@ class MainSmc extends BaseSmc {
   void doIncrementCounter() {
     _counter++;
     _errorMsg = (_counter < 0) ? "You should be positive." : "";
-    rebuildStates(ids: [stateId]);
+    updateStates(ids: [stateId]);
   }
 
   void doDecrementCounter() {
     _counter--;
     _errorMsg = (_counter < 0) ? "You should be positive." : "";
-    rebuildStates(ids: [stateId]);
+    updateStates(ids: [stateId]);
   }
 
   int get getCounter => _counter;
@@ -27,4 +27,4 @@ class MainSmc extends BaseSmc {
   //
 }
 
-MainSmc mainSmc; // declared here, instantiated in runApp(_)
+MainState mainState; // declared here, instantiated in runApp(_)

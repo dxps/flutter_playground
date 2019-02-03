@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import './src/smcs/main_smc.dart';
+import './src/states/main_state.dart';
+import './src/states/state_builder.dart';
 
 void main() => runApp(
-      // SMCs are instantiated in the initState() of a stateful widget.
-
       StateBuilder(
         builder: (_) => MyApp(),
-        initState: (_) => mainSmc = MainSmc(),
-        dispose: (_) => mainSmc = null,
+        initState: (_) => mainState = MainState(),
+        dispose: (_) => mainState = null,
       ),
     );
 
@@ -18,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "SMC Tryout",
+      title: "StateModel - sample 1",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.lightGreen,
@@ -37,20 +36,20 @@ class MyHomePage extends StatelessWidget {
     //
     return Scaffold(
       appBar: AppBar(
-        title: Text("State Management Component"),
+        title: Text("StateModel - sample 1"),
         backgroundColor: Colors.white24,
         elevation: 0.0,
       ),
       body: Center(
         child: StateBuilder(
-          stateID: mainSmc.stateId,
-          smcs: [mainSmc],
+          stateId: mainState.stateId,
+          usingStates: [mainState],
           builder: (_) => Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text('Counter is:', style: Theme.of(context).textTheme.headline),
-                  Text('${mainSmc.getCounter}', style: Theme.of(context).textTheme.display4),
-                  Text(mainSmc.getErrorMsg, style: TextStyle(color: Colors.red)),
+                  Text('${mainState.getCounter}', style: Theme.of(context).textTheme.display4),
+                  Text(mainState.getErrorMsg, style: TextStyle(color: Colors.red)),
                   SizedBox(height: 80),
                   ButtonBar(
                     alignment: MainAxisAlignment.center,
@@ -59,13 +58,13 @@ class MyHomePage extends StatelessWidget {
                         icon: Icon(Icons.add_circle),
                         iconSize: 48.0,
                         color: Theme.of(context).primaryColor,
-                        onPressed: mainSmc.doIncrementCounter,
+                        onPressed: mainState.doIncrementCounter,
                       ),
                       IconButton(
                         icon: Icon(Icons.remove_circle),
                         iconSize: 48.0,
                         color: Colors.red,
-                        onPressed: mainSmc.doDecrementCounter,
+                        onPressed: mainState.doDecrementCounter,
                       ),
                     ],
                   ),
