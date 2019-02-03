@@ -83,7 +83,6 @@ class _StateBuilderState extends State<StateBuilder> {
         );
       }
     }
-
     if (widget.initState != null) widget.initState(this);
   }
 

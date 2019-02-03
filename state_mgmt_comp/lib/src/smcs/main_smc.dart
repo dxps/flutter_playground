@@ -4,15 +4,25 @@ export './base_smc.dart';
 /// Main SMC.
 class MainSmc extends BaseSmc {
   //
+  final String stateId = "MainState";
 
   int _counter = 0;
+  String _errorMsg = "";
 
   void doIncrementCounter() {
     _counter++;
-    rebuildStates(ids: ["CounterText"]);
+    _errorMsg = (_counter < 0) ? "You should be positive." : "";
+    rebuildStates(ids: [stateId]);
   }
 
-  int get counter => _counter;
+  void doDecrementCounter() {
+    _counter--;
+    _errorMsg = (_counter < 0) ? "You should be positive." : "";
+    rebuildStates(ids: [stateId]);
+  }
+
+  int get getCounter => _counter;
+  String get getErrorMsg => _errorMsg;
 
   //
 }

@@ -18,9 +18,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "SetState management",
+      title: "SMC Tryout",
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.lightGreen,
       ),
       home: MyHomePage(),
     );
@@ -35,23 +36,42 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     //
     return Scaffold(
-      appBar: AppBar(title: Text("State Management")),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text('You have pushed the button this many times:'),
-            StateBuilder(
-              stateID: "CounterText",
-              smcs: [mainSmc],
-              builder: (_) => Text('${mainSmc.counter}', style: Theme.of(context).textTheme.display1),
-            ),
-          ],
-        ),
+      appBar: AppBar(
+        title: Text("State Management Component"),
+        backgroundColor: Colors.white24,
+        elevation: 0.0,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: mainSmc.doIncrementCounter,
-        child: Icon(Icons.add),
+      body: Center(
+        child: StateBuilder(
+          stateID: mainSmc.stateId,
+          smcs: [mainSmc],
+          builder: (_) => Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text('Counter is:', style: Theme.of(context).textTheme.headline),
+                  Text('${mainSmc.getCounter}', style: Theme.of(context).textTheme.display4),
+                  Text(mainSmc.getErrorMsg, style: TextStyle(color: Colors.red)),
+                  SizedBox(height: 80),
+                  ButtonBar(
+                    alignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      IconButton(
+                        icon: Icon(Icons.add_circle),
+                        iconSize: 48.0,
+                        color: Theme.of(context).primaryColor,
+                        onPressed: mainSmc.doIncrementCounter,
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.remove_circle),
+                        iconSize: 48.0,
+                        color: Colors.red,
+                        onPressed: mainSmc.doDecrementCounter,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+        ),
       ),
     );
   }
