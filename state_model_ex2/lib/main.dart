@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
-import './src/states/state_builder.dart';
 import './src/states/main_state.dart';
 
 void main() => runApp(

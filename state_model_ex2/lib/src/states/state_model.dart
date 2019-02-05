@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+export 'state_builder.dart';
 
 /// `StateModel` is the base class for (to be extended by)
 /// all the custom (app specific) states used within the application.
