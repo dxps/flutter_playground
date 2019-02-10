@@ -2,6 +2,9 @@ import 'package:flutter/widgets.dart';
 import './state_model.dart';
 
 ///
+/// `StateBuilder` is used for register to one or more states
+/// that are used by the wrapped widget(s) rendered through the `builder` function.
+///
 class StateBuilder extends StatefulWidget {
   //
 
