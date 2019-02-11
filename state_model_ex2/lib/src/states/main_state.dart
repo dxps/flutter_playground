@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/widgets.dart'; // for using `State`
 import 'dart:math';
 import './state_model.dart';
 export './state_model.dart';

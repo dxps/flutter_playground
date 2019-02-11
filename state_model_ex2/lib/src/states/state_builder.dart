@@ -3,13 +3,14 @@ import './state_model.dart';
 
 ///
 /// `StateBuilder` is used for register to one or more states
-/// that are used by the wrapped widget(s) rendered through the `builder` function.
+/// (declared in `usingStates`) that are used by the wrapped widget(s)
+/// which are rendered through the declared `builder` function.
 ///
 class StateBuilder extends StatefulWidget {
   //
 
   /// `builder` function returns the `Widget` that uses the state(s)
-  /// managed by this `StateBuilder` instance.
+  /// which are declared in `usingStates`.
   @required
   final Widget Function(State state) builder;
 
@@ -17,7 +18,8 @@ class StateBuilder extends StatefulWidget {
 
   final void Function(StateBuilder oldWidget, State state) didUpdateWidget;
 
-  /// The id of the state managed by this component.
+  /// The state id of this component, used for subscribing itself
+  /// to get notified on updates happen on the  states declared in `usingStates`.
   final String stateId;
 
   /// The list of states whose changes should notify this component.

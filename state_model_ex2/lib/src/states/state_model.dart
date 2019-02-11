@@ -3,16 +3,17 @@ export 'state_builder.dart';
 
 ///
 /// `StateModel` is the base class for (to be extended by)
-/// all the custom (app specific) states used within the application.
+/// all the custom (app or domain specific) states
+/// used within the application.
 ///
 class StateModel extends State {
   //
 
   /// A map of stateIDs and respective states that are subscribed
-  /// to get updates notifications from this state.
+  /// to get notified on this state updates.
   Map<String, State> _outs = {};
 
-  /// Subcribe to get notified on updates from this state node.
+  /// Subcribe to get notified on this state updates.
   void subscribe(String stateId, State s) => _outs[stateId] = s;
 
   /// Unsubcribe from geting notified on updates from this state node.
@@ -22,7 +23,8 @@ class StateModel extends State {
     }
   }
 
-  /// Updates the state dependencies graph: this state and all the subscribed ones.
+  /// Updates the state dependencies chain: the provided states and/or
+  /// the subscribed ones based on the provided ids.
   void updateStates({VoidCallback setStateFn, List<State> states, List<String> ids}) {
     //
     if (states != null) {
