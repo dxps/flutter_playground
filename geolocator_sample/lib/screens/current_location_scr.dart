@@ -34,9 +34,12 @@ class _LocationState extends State<CurrentLocationScreen> {
     Position position;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
+      print('_initPlatformState > Initing Geolocator ...');
       final Geolocator geolocator = Geolocator()..forceAndroidLocationManager = true;
       position = await geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.bestForNavigation);
-    } on PlatformException {
+      print('_initPlatformState > Got position: $position');
+    } on PlatformException catch(e) {
+      print('_initPlatformState > Error getting the current position: ${e.message}');
       position = null;
     }
 
