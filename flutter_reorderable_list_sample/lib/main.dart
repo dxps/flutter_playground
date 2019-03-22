@@ -44,27 +44,19 @@ class MyHomePage extends StatefulWidget {
 }
 
 ///
+/// The dragging mode could either be iOS or Android.
 ///
-///
-class ItemData {
-  //
-  ItemData(this.title, this.key);
-
-  final String title;
-
-  final Key key; // each item in reorderable list needs stable and unique key.
-  //
-}
-
 enum DraggingMode { iOS, Android }
 
 ///
-///
+/// The state of `MyHomePage`.
 ///
 class _MyHomePageState extends State<MyHomePage> {
   //
 
   List<ItemData> _items;
+
+  DraggingMode _draggingMode = DraggingMode.iOS;
 
   _MyHomePageState() {
     //
@@ -84,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return _items.indexWhere((ItemData d) => d.key == key);
   }
 
-  bool _reorderCallback(Key item, Key newPosition) {
+  bool _onReorder(Key item, Key newPosition) {
     //
     int draggingIndex = _indexOfKey(item);
     int newPositionIndex = _indexOfKey(newPosition);
@@ -103,28 +95,24 @@ class _MyHomePageState extends State<MyHomePage> {
     //
   }
 
-  void _reorderDone(Key item) {
+  void _onReorderDone(Key item) {
     final draggedItem = _items[_indexOfKey(item)];
     debugPrint("Reordering finished for ${draggedItem.title}}");
   }
-
-  //
-  // Reordering works by having ReorderableList widget in hierarchy
-  // containing ReorderableItems widgets
-  //
-
-  DraggingMode _draggingMode = DraggingMode.iOS;
 
   Widget build(BuildContext context) {
     //
     return Scaffold(
       body: ReorderableList(
-        onReorder: this._reorderCallback,
-        onReorderDone: this._reorderDone,
+        onReorder: this._onReorder,
+        onReorderDone: this._onReorderDone,
         child: CustomScrollView(
           // cacheExtent: 3000,
           slivers: <Widget>[
             SliverAppBar(
+              pinned: true,
+              expandedHeight: 150.0,
+              flexibleSpace: const FlexibleSpaceBar(title: const Text('Demo')),
               actions: <Widget>[
                 PopupMenuButton<DraggingMode>(
                   child: Container(
@@ -146,28 +134,23 @@ class _MyHomePageState extends State<MyHomePage> {
                       ],
                 ),
               ],
-              pinned: true,
-              expandedHeight: 150.0,
-              flexibleSpace: const FlexibleSpaceBar(
-                title: const Text('Demo'),
-              ),
             ),
             SliverPadding(
-                padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-                sliver: SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                      return Item(
-                        data: _items[index],
-                        // first and last attributes affect border drawn during dragging
-                        isFirst: index == 0,
-                        isLast: index == _items.length - 1,
-                        draggingMode: _draggingMode,
-                      );
-                    },
-                    childCount: _items.length,
-                  ),
-                )),
+              padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+              sliver: SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                    return Item(
+                      data: _items[index],
+                      isFirst: index == 0,
+                      isLast: index == _items.length - 1,
+                      draggingMode: _draggingMode,
+                    );
+                  },
+                  childCount: _items.length,
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -179,22 +162,37 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 ///
+/// The data that used by a list item.
 ///
+class ItemData {
+  //
+
+  final String title;
+  final Key key; // Each item in reorderable list needs a stable and unique key.
+
+  ItemData(this.title, this.key);
+
+  //
+}
+
+///
+/// A list item that is wrapped in an ReorderableItem.
 ///
 class Item extends StatelessWidget {
   //
 
-  Item({
-    this.data,
-    this.isFirst,
-    this.isLast,
-    this.draggingMode,
-  });
-
   final ItemData data;
-  final bool isFirst;
-  final bool isLast;
+  final bool isFirst, isLast; // These attributes affect border drawn during dragging.
   final DraggingMode draggingMode;
+
+  Item({this.data, this.isFirst, this.isLast, this.draggingMode});
+
+  @override
+  Widget build(BuildContext context) {
+    //
+    return ReorderableItem(key: data.key, childBuilder: _buildChild);
+    //
+  }
 
   Widget _buildChild(BuildContext context, ReorderableItemState state) {
     //
@@ -207,25 +205,24 @@ class Item extends StatelessWidget {
       bool placeholder = state == ReorderableItemState.placeholder;
       decoration = BoxDecoration(
           border: Border(
-              top: isFirst && !placeholder
-                  ? Divider.createBorderSide(context) //
-                  : BorderSide.none,
-              bottom: isLast && placeholder
-                  ? BorderSide.none //
-                  : Divider.createBorderSide(context)),
+            top: isFirst && !placeholder
+                ? Divider.createBorderSide(context) //
+                : BorderSide.none,
+            bottom: isLast && placeholder
+                ? BorderSide.none //
+                : Divider.createBorderSide(context),
+          ),
           color: placeholder ? null : Colors.white);
     }
 
-    // For iOS dragging mdoe, there will be drag handle on the right that triggers
-    // reordering; For android mode it will be just an empty container
+    // For iOS dragging mode, there will be drag handle on the right that triggers
+    // reordering. For android mode it will be just an empty container.
     Widget dragHandle = draggingMode == DraggingMode.iOS
         ? ReorderableListener(
             child: Container(
               padding: EdgeInsets.only(right: 18.0, left: 18.0),
               color: Color(0x08000000),
-              child: Center(
-                child: Icon(Icons.reorder, color: Color(0xFF888888)),
-              ),
+              child: Center(child: Icon(Icons.reorder, color: Color(0xFF888888))),
             ),
           )
         : Container();
@@ -257,17 +254,11 @@ class Item extends StatelessWidget {
 
     // For android dragging mode, wrap the entire content in DelayedReorderableListener
     if (draggingMode == DraggingMode.Android) {
-      content = DelayedReorderableListener(
-        child: content,
-      );
+      content = DelayedReorderableListener(child: content);
     }
 
     return content;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ReorderableItem(key: data.key, childBuilder: _buildChild);
+    //
   }
 
   //
