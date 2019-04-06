@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reorderable_list/flutter_reorderable_list.dart';
-import '../models/itemdata.dart';
+
+import '../models/item.dart';
 import '../models/draggingmode.dart';
 import '../widgets/item_wdg.dart';
 
@@ -26,7 +27,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   //
 
-  List<ItemData> _items;
+  List<Item> _items;
 
   DraggingMode _draggingMode = DraggingMode.iOS;
 
@@ -38,41 +39,43 @@ class _HomeScreenState extends State<HomeScreen> {
       if (i == 5) {
         label += ". This item has a long label and will be wrapped.";
       }
-      _items.add(ItemData(label, ValueKey(i)));
+      _items.add(Item(label, ValueKey(i)));
     }
     //
   }
 
   /// Returns the index of item with given key.
+  ///
   int _indexOfKey(Key key) {
-    return _items.indexWhere((ItemData d) => d.key == key);
+    return _items.indexWhere((Item d) => d.key == key);
   }
 
   //
-  bool _onReorder(Key item, Key newPosition) {
+  bool _onReorder(Key itemKey, Key newPositionKey) {
     //
-    int draggingIndex = _indexOfKey(item);
-    int newPositionIndex = _indexOfKey(newPosition);
+    int draggedIndex = _indexOfKey(itemKey);
+    Item draggedItem = _items[draggedIndex];
+    int newPositionIndex = _indexOfKey(newPositionKey);
 
     // Uncomment to allow only even target reorder possition
     // if (newPositionIndex % 2 == 1)
     //   return false;
 
-    final draggedItem = _items[draggingIndex];
     setState(() {
-      debugPrint("Reordering $item -> $newPosition");
-      _items.removeAt(draggingIndex);
+      debugPrint("Reordering itemKey:$itemKey to newPositionKey:$newPositionKey");
+      _items.removeAt(draggedIndex);
       _items.insert(newPositionIndex, draggedItem);
     });
     return true;
     //
   }
 
-  void _onReorderDone(Key item) {
-    final draggedItem = _items[_indexOfKey(item)];
+  void _onReorderDone(Key itemKey) {
+    final draggedItem = _items[_indexOfKey(itemKey)];
     debugPrint("Reordering finished for ${draggedItem.title}}");
   }
 
+  @override
   Widget build(BuildContext context) {
     //
     return Scaffold(
@@ -113,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
               sliver: SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (BuildContext context, int index) {
-                    return Item(
+                    return ItemWidget(
                       data: _items[index],
                       isFirst: index == 0,
                       isLast: index == _items.length - 1,

@@ -3,13 +3,14 @@ import 'package:flutter/widgets.dart';
 ///
 /// The data that used by a list item.
 ///
-class ItemData {
+class Item {
   //
 
-  final String title;
   final Key key; // Each item in reorderable list needs a stable and unique key.
 
-  ItemData(this.title, this.key);
+  final String title;
+
+  Item(this.title, this.key);
 
   //
 }

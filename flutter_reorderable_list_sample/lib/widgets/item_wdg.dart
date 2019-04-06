@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reorderable_list/flutter_reorderable_list.dart';
-import '../models/itemdata.dart';
+import '../models/item.dart';
 import '../models/draggingmode.dart';
 
 ///
 /// A list item that is wrapped in an ReorderableItem.
 ///
-class Item extends StatelessWidget {
+class ItemWidget extends StatelessWidget {
   //
 
-  final ItemData data;
+  final Item data;
   final bool isFirst, isLast; // These attributes affect border drawn during dragging.
   final DraggingMode draggingMode;
 
-  Item({this.data, this.isFirst, this.isLast, this.draggingMode});
+  ItemWidget({this.data, this.isFirst, this.isLast, this.draggingMode});
 
   @override
   Widget build(BuildContext context) {
@@ -33,12 +33,8 @@ class Item extends StatelessWidget {
       bool placeholder = state == ReorderableItemState.placeholder;
       decoration = BoxDecoration(
           border: Border(
-            top: isFirst && !placeholder
-                ? Divider.createBorderSide(context) //
-                : BorderSide.none,
-            bottom: isLast && placeholder
-                ? BorderSide.none //
-                : Divider.createBorderSide(context),
+            top: isFirst && !placeholder ? Divider.createBorderSide(context) : BorderSide.none,
+            bottom: isLast && placeholder ? BorderSide.none : Divider.createBorderSide(context),
           ),
           color: placeholder ? null : Colors.white);
     }
@@ -68,10 +64,11 @@ class Item extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   Expanded(
-                      child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 14.0),
-                    child: Text(data.title, style: Theme.of(context).textTheme.subhead),
-                  )),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 14.0),
+                      child: Text(data.title, style: Theme.of(context).textTheme.subhead),
+                    ),
+                  ),
                   // Triggers the reordering
                   dragHandle,
                 ],
