@@ -12,7 +12,7 @@ class Router {
       case 'login':
         return MaterialPageRoute(builder: (_) => LoginView());
       case 'post':
-        return MaterialPageRoute(builder: (_) => PostView());
+        return MaterialPageRoute(builder: (_) => PostView(post: settings.arguments));
       default:
         return MaterialPageRoute(builder: (_) {
           return Scaffold(body: Center(child: Text('Route \'${settings.name}\' is unknown.')));

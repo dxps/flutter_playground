@@ -1,6 +1,7 @@
 import '../models/post.dart';
 import '../services/api.dart';
 import '../viewmodels/base_model.dart';
+export '../enums/viewstate.dart';
 import 'package:provider_setup_1/locator.dart';
 
 ///
