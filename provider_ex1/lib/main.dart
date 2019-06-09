@@ -6,9 +6,9 @@ import './states/counter.dart';
 
 void main() => runApp(MyApp());
 
+/// The root of this app.
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-
+  //
   @override
   Widget build(BuildContext context) {
     //
@@ -22,16 +22,9 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(primarySwatch: Colors.blueGrey),
         debugShowCheckedModeBanner: false,
         home: HomeScreen(),
-
-        // home: ChangeNotifierProvider<AppState>(
-        //   builder: (_) => AppState(),
-        //   child: ChangeNotifierProvider<Counter>(
-        //     builder: (_) => Counter(0),
-        //     child: HomeScreen(),
-        //   ),
-        // ),
       ),
     );
     //
   }
+  //
 }

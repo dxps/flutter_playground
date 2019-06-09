@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+///
+/// The counter model.
+///
 class Counter with ChangeNotifier {
   //
 
@@ -8,8 +11,6 @@ class Counter with ChangeNotifier {
   Counter(this._counter);
 
   getValue() => _counter;
-
-  setCounter(int counter) => _counter = counter;
 
   void increment() {
     _counter++;
