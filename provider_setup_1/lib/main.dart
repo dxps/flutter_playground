@@ -5,11 +5,13 @@ import 'package:provider_setup_1/core/services/auth_svc.dart';
 import 'package:provider_setup_1/ui/router.dart';
 import 'locator.dart';
 
+///
 void main() {
   setupLocator();
   runApp(MyApp());
 }
 
+///
 class MyApp extends StatelessWidget {
   //
   @override

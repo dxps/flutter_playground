@@ -5,7 +5,9 @@ import 'package:provider_setup_1/ui/views/home_view.dart';
 import 'views/login_view.dart';
 import 'views/post_view.dart';
 
+/// The app's routes.
 class Router {
+  //
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
@@ -21,4 +23,5 @@ class Router {
         });
     }
   }
+  //
 }

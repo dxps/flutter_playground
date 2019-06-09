@@ -16,6 +16,7 @@ class BaseView<T extends ChangeNotifier> extends StatefulWidget {
   //
 }
 
+///
 class _BaseViewState<T extends ChangeNotifier> extends State<BaseView<T>> {
   //
   T model = locator<T>();

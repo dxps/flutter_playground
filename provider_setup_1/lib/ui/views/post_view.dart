@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:provider_setup_1/core/models/comment.dart';
 import 'package:provider_setup_1/core/models/user.dart';
 import 'package:provider_setup_1/ui/shared/app_colors.dart';
 import 'package:provider_setup_1/ui/shared/text_styles.dart';
@@ -8,6 +7,7 @@ import 'package:provider_setup_1/ui/shared/ui_helper.dart';
 import '../../core/models/post.dart';
 import 'comments_view.dart';
 
+///
 class PostView extends StatelessWidget {
   //
   final Post post;

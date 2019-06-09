@@ -5,8 +5,6 @@ import 'package:provider_setup_1/ui/views/base_view.dart';
 import 'package:provider_setup_1/ui/widgets/comments.dart';
 
 ///
-///
-///
 class Comments extends StatelessWidget {
   //
   final int postId;

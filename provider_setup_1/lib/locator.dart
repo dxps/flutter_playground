@@ -7,12 +7,18 @@ import 'core/viewmodels/login_model.dart';
 
 GetIt locator = GetIt();
 
+///
 void setupLocator() {
-  // registering models and services
+  //
+
+  // registering singletons for models and services
   locator.registerLazySingleton(() => AuthenticationService());
   locator.registerLazySingleton(() => Api());
   locator.registerLazySingleton(() => LoginModel());
   locator.registerLazySingleton(() => HomeModel());
 
+  // registering factories
   locator.registerFactory(() => CommentsModel());
+
+  //
 }
