@@ -33,7 +33,6 @@ class HomeView extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 20.0),
                       child: Text('Here are all your posts', style: subHeaderStyle),
                     ),
-                    UIHelper.verticalSpaceSmall(),
                     Expanded(child: getPostsUi(model.posts)),
                   ])
                 : Center(child: CircularProgressIndicator()),
@@ -46,7 +45,7 @@ class HomeView extends StatelessWidget {
         itemBuilder: (context, index) => PostListItem(
               post: posts[index],
               onTap: () {
-                Navigator.pushNamed(context, '/post', arguments: posts[index]);
+                Navigator.pushNamed(context, 'post', arguments: posts[index]);
               },
             ),
       );
