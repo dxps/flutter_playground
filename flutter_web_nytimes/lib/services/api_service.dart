@@ -4,10 +4,14 @@ import '../models/article_model.dart';
 
 class ApiService {
   final String _baseUrl = 'api.nytimes.com';
-  static const String API_KEY = 'todo-external';
+  final String apiKey;
+
+  ApiService(this.apiKey);
 
   Future<List<Article>> fetchArticlesBySection(String sectionName) async {
-    Map<String, String> params = {'api-key': API_KEY};
+    //
+    print("trc>>> ApiService > Fetching using api-key:$apiKey");
+    Map<String, String> params = {'api-key': apiKey};
     Uri uri = Uri.https(_baseUrl, '/svc/topstories/v2/$sectionName.json', params);
     try {
       var response = await http.get(uri);

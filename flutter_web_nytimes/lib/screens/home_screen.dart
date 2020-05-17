@@ -3,6 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../models/article_model.dart';
 import '../services/api_service.dart';
 import '../helpers/responsive_helper.dart';
+import '../main.dart';
 
 class HomeScreen extends StatefulWidget {
   //
@@ -20,7 +21,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _fetchArticles();
+    configIsLoaded.then((value) => _fetchArticles(apiKey));
+    // _fetchArticles();
   }
 
   @override
@@ -50,9 +52,9 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  _fetchArticles() async {
+  _fetchArticles(String apiKey) async {
     //
-    List<Article> articles = await ApiService().fetchArticlesBySection('technology');
+    List<Article> articles = await ApiService(apiKey).fetchArticlesBySection('technology');
     setState(() {
       _articles = articles;
     });
@@ -78,6 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   _buildArticleTile(Article article, MediaQueryData mediaQuery) {
+    // print('>>> _buildArticleTile > article.title=${article.title}');
     return GridTile(
       child: GestureDetector(
         onTap: () => _launchURL(article.url),
@@ -89,13 +92,8 @@ class _HomeScreenState extends State<HomeScreen> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20.0),
-                  topRight: Radius.circular(20.0),
-                ),
-                image: DecorationImage(
-                  image: NetworkImage(article.imageUrl),
-                  fit: BoxFit.cover,
-                ),
+                    topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
+                image: DecorationImage(image: NetworkImage(article.imageUrl), fit: BoxFit.cover),
               ),
             ),
             Container(
@@ -106,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(20.0), bottomRight: Radius.circular(20.0)),
+                    bottomLeft: Radius.circular(10.0), bottomRight: Radius.circular(10.0)),
                 boxShadow: [
                   BoxShadow(color: Colors.black12, offset: Offset(0, 1), blurRadius: 6.0),
                 ],

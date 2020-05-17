@@ -17,7 +17,6 @@ class Article {
   });
 
   factory Article.fromMap(Map<String, dynamic> map) {
-    print('>>> Article.fromMap > map:$map');
     return Article(
       title: map['title'],
       byline: map['byline'],
