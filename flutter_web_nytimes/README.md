@@ -1,16 +1,14 @@
 # flutter_web_nytimes
 
-A new Flutter project.
+Running a test play of Flutter Web by calling the NYTimes API.
 
-## Getting Started
+## Setup
 
-This project is a starting point for a Flutter application.
+This app uses [NYTimes' API](https://api.nytimes.com) to fetch the top stories on `techology` category. Therefore, an API key is needed. To get one, follow these steps:
+1. Go to [NYTimes Developers](https://developer.nytimes.com) website
+2. Register yourself and log into your account.
+3. Create an *App* having *Top Stories API* enabled.
+    - As a result, `App ID`, `Key`, and `Secret` values are generated
+    - In this case, only the `Key` is needed.
+4. Place the `Key` value of the newly created app into the `assets/config.json` file of this project.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
