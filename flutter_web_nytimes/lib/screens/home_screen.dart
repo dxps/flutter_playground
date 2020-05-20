@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../models/article_model.dart';
@@ -31,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: ListView(
         children: <Widget>[
-          SizedBox(height: 80),
+          SizedBox(height: 40),
           Center(
             child: Text(
               'The New York Times\nTop Tech Articles',
@@ -43,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          SizedBox(height: 80),
+          SizedBox(height: 40),
           _articles.length > 0
               ? _buildArticlesGrid(mediaQuery)
               : Center(child: CircularProgressIndicator())
@@ -110,9 +112,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               child: Text(
-                article.title,
+                utf8.decode(article.title.runes.toList()),
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  color: Colors.blueGrey,
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
                 maxLines: 2,
               ),
             ),
