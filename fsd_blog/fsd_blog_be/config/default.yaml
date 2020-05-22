@@ -1,0 +1,15 @@
+# Default server configuration.
+
+host: 127.0.0.1
+port: 3000
+
+mongo_db: mongodb://localhost:27017/angel
+
+postgres:
+  database_name: fsd_blog
+  host: localhost
+  port: 54321
+  username: fsd_blog
+  password: pass123
+
+jwt_secret: "DLew7yyBGrq9vfWvvOc7oV2MeR2WOgTH"
