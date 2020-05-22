@@ -2,6 +2,16 @@
 
 This is the back-end of the blog solution.
 
+## Prereqs
+
+TODO: document here all prerequisites such as Dart version, etc.
+
+## Run
+
+As mentioned in the prerequisites section above, Postgres should be available. For a local setup, you can use the provided `run_db.sh` script.
+
+To run in dev mode use the provided `run_dev.sh` script. 
+
 
 
 ## Angel
