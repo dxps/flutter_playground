@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import './counter/counter_cm.dart';
 
 void main() {
@@ -7,12 +8,15 @@ void main() {
       child: MyApp(),
       controllers: [CounterController()],
       persistSave: (context, key, value) async {
-        print(">>> persistSave > key:value=$key:$value");
-        return true;
+        print(">>> persistSave > Saving key:value=$key:$value");
+        var sharedPrefs = await SharedPreferences.getInstance();
+        return await sharedPrefs.setString(key, value);
       },
       persistGet: (context, key) async {
-        print(">>> persistGet > key=$key");
-        return "";
+        var sharedPrefs = await SharedPreferences.getInstance();
+        var value = sharedPrefs.getString(key);
+        print(">>> persistGet > For key=$key, got value=$value");
+        return value;
       },
     ),
   );
@@ -45,8 +49,8 @@ class HomeWidget extends StatelessWidget {
             MomentumBuilder(
               controllers: [CounterController],
               builder: (context, snapshot) {
-                var counter = snapshot<CounterModel>();
-                return Text('${counter.value}', style: Theme.of(context).textTheme.headline4);
+                var counterModel = snapshot<CounterModel>();
+                return Text('${counterModel.value}', style: Theme.of(context).textTheme.headline4);
               },
             ),
           ],

@@ -29,4 +29,12 @@ class CounterModel extends MomentumModel<CounterController> {
   void update({int value}) {
     CounterModel(controller, value: value ?? this.value).updateMomentum();
   }
+
+  Map<String, dynamic> toJson() {
+    return {'value': value};
+  }
+
+  CounterModel fromJson(Map<String, dynamic> json) {
+    return CounterModel(controller, value: json['value']);
+  }
 }
