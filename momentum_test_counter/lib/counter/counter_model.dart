@@ -1,24 +1,9 @@
-///
-/// Counter > Controller & Model
-///
-
 import 'package:momentum/momentum.dart';
-export 'package:momentum/momentum.dart';
 
-class CounterController extends MomentumController<CounterModel> {
-  //
-  @override
-  CounterModel init() {
-    return CounterModel(this, value: 0);
-  }
+import 'counter_controller.dart';
 
-  void increment() {
-    var value = model.value; // get the current value
-    model.update(value: value + 1); // update the state with the new value (=> widgets rebuild)
-    print(">>> CounterController > increment > value=${model.value}");
-  }
-}
-
+/// The Model, where the state exists.
+///
 class CounterModel extends MomentumModel<CounterController> {
   //
   CounterModel(CounterController controller, {this.value}) : super(controller);

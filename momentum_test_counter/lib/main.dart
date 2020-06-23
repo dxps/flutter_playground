@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import './counter/counter_cm.dart';
+import './counter/index.dart';
 
 void main() {
   runApp(
     Momentum(
       child: MyApp(),
       controllers: [CounterController()],
-      persistSave: (context, key, value) async {
-        print(">>> persistSave > Saving key:value=$key:$value");
-        var sharedPrefs = await SharedPreferences.getInstance();
-        return await sharedPrefs.setString(key, value);
-      },
       persistGet: (context, key) async {
         var sharedPrefs = await SharedPreferences.getInstance();
         var value = sharedPrefs.getString(key);
         print(">>> persistGet > For key=$key, got value=$value");
         return value;
+      },
+      persistSave: (context, key, value) async {
+        print(">>> persistSave > Saving key:value=$key:$value");
+        var sharedPrefs = await SharedPreferences.getInstance();
+        return await sharedPrefs.setString(key, value);
       },
     ),
   );
@@ -27,10 +27,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Momentum (State Mgmt) Counter Demo',
-      theme: ThemeData(primarySwatch: Colors.green, visualDensity: VisualDensity.adaptivePlatformDensity),
-      home: HomeWidget(),
       debugShowCheckedModeBanner: false,
+      home: HomeWidget(),
+      theme: ThemeData(primarySwatch: Colors.green, visualDensity: VisualDensity.adaptivePlatformDensity),
+      title: 'Momentum (State Mgmt) Counter Demo',
     );
   }
 }
