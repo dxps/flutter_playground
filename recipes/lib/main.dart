@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:recipes/recipe_detail.dart';
+import 'recipe.dart';
 
 void main() {
   runApp(RecipeApp());
 }
 
 class RecipeApp extends StatelessWidget {
-  // This widget is the root of your application.
+  // This widget is the root of the application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -54,8 +56,44 @@ class _MyHomePageState extends State<MyHomePage> {
         centerTitle: true,
       ),
       body: SafeArea(
-        child: Container(),
+        child: ListView.builder(
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RecipeDetail(recipe: Recipe.samples[index]),
+                  ),
+                );
+              },
+              child: buildRecipeCard(Recipe.samples[index]),
+            );
+          },
+          itemCount: Recipe.samples.length,
+        ),
       ),
     );
   }
+}
+
+Widget buildRecipeCard(Recipe recipe) {
+  return Card(
+    margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
+    elevation: 2.0,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+    child: Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        children: [
+          Image(image: AssetImage(recipe.imageUrl)),
+          SizedBox(height: 14),
+          Text(
+            recipe.label,
+            style: TextStyle(fontFamily: 'Palatino', fontSize: 20, fontWeight: FontWeight.w700),
+          ),
+        ],
+      ),
+    ),
+  );
 }
