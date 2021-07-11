@@ -1,8 +1,8 @@
 part of 'counter_cubit.dart';
 
 class CounterState extends Equatable {
-  int counterValue;
-  bool wasIncremented;
+  final int counterValue;
+  final bool wasIncremented;
 
   CounterState({
     required this.counterValue,
