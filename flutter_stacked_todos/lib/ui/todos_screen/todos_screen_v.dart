@@ -39,7 +39,7 @@ class TodosScreenView extends StatelessWidget {
                   controller: TextEditingController(text: todo.content),
                   decoration: null,
                   focusNode: model.getFocusNode(todo.id),
-                  maxLines: null,
+                  maxLines: 1,
                   onChanged: (text) => model.updateTodoContent(todo.id, text),
                   style: TextStyle(
                     fontSize: 20,
@@ -55,7 +55,7 @@ class TodosScreenView extends StatelessWidget {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: model!.newTodo,
+          onPressed: model.newTodo,
           child: const Icon(Icons.add),
         ),
       ),

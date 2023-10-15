@@ -1,6 +1,6 @@
 import 'package:get_it/get_it.dart';
 
-import '../services/todos.service.dart';
+import '../services/todos.svc.dart';
 
 final locator = GetIt.instance;
 
