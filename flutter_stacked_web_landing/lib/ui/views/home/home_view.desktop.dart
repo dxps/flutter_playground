@@ -33,36 +33,19 @@ class HomeViewDesktop extends ViewModelWidget<HomeViewModel> {
                     style: ktsBodyRegular.copyWith(fontWeight: FontWeight.w800, color: Colors.grey),
                   ),
 
-                  // Space
                   const Spacer(flex: 2),
 
                   // Title
-                  GradientText(
-                    'MASTER\nFLUTTER',
-                    style: ktsTitleText,
-                    colors: const [Color(0xff0CFF60), Color(0xff0091FB)],
-                  ),
-                  Text(
-                    'ON THE WEB',
-                    style: ktsTitleText,
-                  ),
+                  GradientText('MASTER\nFLUTTER', style: ktsTitleText, colors: const [Color(0xff0CFF60), Color(0xff0091FB)]),
+                  Text('ON THE WEB', style: ktsTitleText),
 
                   // Subtitle
                   Row(
                     children: [
-                      const Text(
-                        'Build amazing software, the right way.',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 20,
-                        ),
-                      ),
+                      Text('Build amazing software, the right way.', style: ktsBodyLarge.copyWith(fontWeight: FontWeight.w600)),
                       GradientText(
                         ' Sign up to be notified',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 20,
-                        ),
+                        style: ktsBodyLarge.copyWith(fontWeight: FontWeight.w600),
                         colors: const [Color(0xff0CFF60), Color(0xff0091FB)],
                       )
                     ],
@@ -82,21 +65,19 @@ class HomeViewDesktop extends ViewModelWidget<HomeViewModel> {
                     children: [
                       // Input Field
                       Container(
-                        child: const TextField(
-                          decoration: InputDecoration.collapsed(
-                            hintText: 'Enter your Email',
-                            hintStyle: TextStyle(
-                              color: Color(0xff989898),
-                            ),
-                            filled: true,
-                            fillColor: Color(0xFF232323),
-                          ),
-                        ),
                         width: kdDesktopMaxContentWidth * 0.3,
                         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                         decoration: BoxDecoration(
                           color: const Color(0xFF232323),
                           borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: const TextField(
+                          decoration: InputDecoration.collapsed(
+                            hintText: 'Enter your Email',
+                            hintStyle: TextStyle(color: Color(0xff989898)),
+                            filled: true,
+                            fillColor: Color(0xFF232323),
+                          ),
                         ),
                       ),
 
@@ -104,10 +85,7 @@ class HomeViewDesktop extends ViewModelWidget<HomeViewModel> {
 
                       // Notify Button
                       Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 16,
-                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -124,8 +102,16 @@ class HomeViewDesktop extends ViewModelWidget<HomeViewModel> {
                   const Spacer(flex: 3)
                 ],
               ),
-              // Right side of screen
-              Container(width: 450, color: Colors.amber)
+              // Right side of the screen.
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.asset(
+                  'assets/master-web-hero-image.png',
+                  width: kdDesktopMaxContentWidth * 0.4,
+                  height: double.infinity,
+                  fit: BoxFit.cover,
+                ),
+              )
             ],
           ),
         ),
