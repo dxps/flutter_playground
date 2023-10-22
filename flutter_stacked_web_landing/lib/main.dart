@@ -25,7 +25,9 @@ class MainApp extends StatelessWidget {
       builder: (_) => MaterialApp.router(
         routerDelegate: stackedRouter.delegate(),
         routeInformationParser: stackedRouter.defaultRouteParser(),
+        debugShowCheckedModeBanner: false,
       ),
+      preferDesktop: true,
     ).animate().fadeIn(
           delay: const Duration(milliseconds: 50),
           duration: const Duration(milliseconds: 400),

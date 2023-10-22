@@ -1,7 +1,7 @@
 import 'package:flutter_stacked_web_landing/extensions/hover_extensions.dart';
 import 'package:flutter_stacked_web_landing/ui/common/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_stacked_web_landing/ui/common/styles.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
@@ -13,17 +13,11 @@ class HomeSubtitle extends StatelessWidget {
     final children = [
       Text(
         'Build amazing software, the right way.',
-        style: GoogleFonts.openSans(
-          fontWeight: FontWeight.w600,
-          fontSize: 20,
-        ),
+        style: ktsBodyLarge.copyWith(fontWeight: FontWeight.w600),
       ),
       GradientText(
         ' Sign up to be notified',
-        style: GoogleFonts.openSans(
-          fontWeight: FontWeight.w600,
-          fontSize: 20,
-        ),
+        style: ktsBodyLarge.copyWith(fontWeight: FontWeight.w600),
         colors: kgTitle,
       ).scaleOnHover().moveOnHover(y: 5),
     ];

@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_stacked_web_landing/ui/views/home/home_view.form.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked/stacked_annotations.dart';
 
 import 'home_view.desktop.dart';
-import 'home_view.tablet.dart';
 import 'home_view.mobile.dart';
 import 'home_viewmodel.dart';
 
-class HomeView extends StackedView<HomeViewModel> {
+@FormView(fields: [FormTextField(name: 'email')])
+class HomeView extends StackedView<HomeViewModel> with $HomeView {
   const HomeView({super.key});
 
   @override
@@ -17,15 +19,18 @@ class HomeView extends StackedView<HomeViewModel> {
     Widget? child,
   ) {
     return ScreenTypeLayout.builder(
-      mobile: (_) => const HomeViewMobile(),
-      tablet: (_) => const HomeViewTablet(),
-      desktop: (_) => const HomeViewDesktop(),
+      // The tablet is ignored and desktop is preferred (see it declared in main).
+      mobile: (_) => HomeViewMobile(controller: emailController),
+      desktop: (_) => HomeViewDesktop(controller: emailController),
     );
   }
 
   @override
-  HomeViewModel viewModelBuilder(
-    BuildContext context,
-  ) =>
-      HomeViewModel();
+  HomeViewModel viewModelBuilder(BuildContext context) => HomeViewModel();
+
+  @override
+  void onViewModelReady(HomeViewModel viewModel) {
+    // Enable two way binding.
+    syncFormWithViewModel(viewModel);
+  }
 }

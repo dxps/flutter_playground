@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_stacked_web_landing/extensions/hover_extensions.dart';
 
 class HomeNotifyButton extends StatelessWidget {
   final Function()? onTap;
@@ -6,7 +7,7 @@ class HomeNotifyButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // We're adding a Gesture detector now so we don't need to later
+    // We're adding a Gesture detector now so we don't need to later.
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -24,6 +25,6 @@ class HomeNotifyButton extends StatelessWidget {
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 20),
         ),
       ),
-    );
+    ).showCursorOnHover;
   }
 }
