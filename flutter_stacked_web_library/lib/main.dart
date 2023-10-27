@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_stacked_web_library/ui/common/app_colors.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:flutter_stacked_web_library/app/app.bottomsheets.dart';
 import 'package:flutter_stacked_web_library/app/app.dialogs.dart';
@@ -23,6 +25,14 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveApp(
       builder: (_) => MaterialApp.router(
+        title: 'Library',
+        theme: Theme.of(context).copyWith(
+          primaryColor: kcBackgroundColor,
+          focusColor: kcPrimaryColor,
+          textTheme: GoogleFonts.openSansTextTheme().apply(
+            bodyColor: Colors.white,
+          ),
+        ),
         debugShowCheckedModeBanner: false,
         routerDelegate: stackedRouter.delegate(),
         routeInformationParser: stackedRouter.defaultRouteParser(),
