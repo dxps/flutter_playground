@@ -8,7 +8,7 @@ class LibraryIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       'Library',
-      style: ktsBodyRegular.copyWith(fontWeight: FontWeight.w800),
+      style: ktsBodyRegular.copyWith(fontWeight: FontWeight.w400),
     );
   }
 }
