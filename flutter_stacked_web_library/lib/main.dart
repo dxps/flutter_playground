@@ -24,6 +24,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResponsiveApp(
+      preferDesktop: true,
       builder: (_) => MaterialApp.router(
         title: 'Library',
         theme: Theme.of(context).copyWith(
