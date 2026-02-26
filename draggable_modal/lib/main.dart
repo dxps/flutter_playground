@@ -3,9 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -33,7 +31,20 @@ class HomePage extends StatelessWidget {
             await showDraggableDialog(
               context: context,
               title: 'Draggable dialog',
-              child: const _DialogContent(),
+              contentBuilder: (context, controller) {
+                return ListView.separated(
+                  controller: controller, // same controller as Scrollbar
+                  padding: const EdgeInsets.all(12),
+                  itemCount: 50,
+                  separatorBuilder: (_, __) => const Divider(height: 1),
+                  itemBuilder: (_, i) => ListTile(
+                    title: Text('Item $i'),
+                    subtitle: const Text(
+                      'Scroll inside; drag using the header only.',
+                    ),
+                  ),
+                );
+              },
             );
           },
           child: const Text('Open dialog'),
@@ -43,27 +54,10 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class _DialogContent extends StatelessWidget {
-  const _DialogContent();
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.separated(
-      padding: const EdgeInsets.all(12),
-      itemCount: 30,
-      separatorBuilder: (_, _) => const Divider(height: 1),
-      itemBuilder: (_, i) => ListTile(
-        title: Text('Item $i'),
-        subtitle: const Text('Scroll inside; drag using the header only.'),
-      ),
-    );
-  }
-}
-
 Future<T?> showDraggableDialog<T>({
   required BuildContext context,
   required String title,
-  required Widget child,
+  required Widget Function(BuildContext, ScrollController) contentBuilder,
   bool barrierDismissible = true,
 }) {
   return showGeneralDialog<T>(
@@ -71,17 +65,17 @@ Future<T?> showDraggableDialog<T>({
     barrierDismissible: barrierDismissible,
     barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
     barrierColor: Colors.black54,
-    transitionDuration: const Duration(milliseconds: 200),
+    transitionDuration: const Duration(milliseconds: 180),
     pageBuilder: (ctx, a1, a2) {
-      return _DraggableDialogHost(title: title, child: child);
+      return _DraggableDialogHost(title: title, contentBuilder: contentBuilder);
     },
-    transitionBuilder: (ctx, anim, _, dialog) {
+    transitionBuilder: (ctx, anim, _, child) {
       final curved = CurvedAnimation(parent: anim, curve: Curves.easeOut);
       return FadeTransition(
         opacity: curved,
         child: ScaleTransition(
           scale: Tween<double>(begin: 0.98, end: 1.0).animate(curved),
-          child: dialog,
+          child: child,
         ),
       );
     },
@@ -89,10 +83,13 @@ Future<T?> showDraggableDialog<T>({
 }
 
 class _DraggableDialogHost extends StatefulWidget {
-  const _DraggableDialogHost({required this.title, required this.child});
+  const _DraggableDialogHost({
+    required this.title,
+    required this.contentBuilder,
+  });
 
   final String title;
-  final Widget child;
+  final Widget Function(BuildContext, ScrollController) contentBuilder;
 
   @override
   State<_DraggableDialogHost> createState() => _DraggableDialogHostState();
@@ -100,9 +97,8 @@ class _DraggableDialogHost extends StatefulWidget {
 
 class _DraggableDialogHostState extends State<_DraggableDialogHost> {
   final GlobalKey _dialogKey = GlobalKey();
-  Offset? _offset; // computed after first layout
+  Offset? _offset;
 
-  // Clamp so the dialog stays onscreen.
   Offset _clamp(Offset proposed) {
     final media = MediaQuery.of(context);
     final screen = media.size;
@@ -124,12 +120,9 @@ class _DraggableDialogHostState extends State<_DraggableDialogHost> {
 
   void _ensureInitialOffset() {
     if (_offset != null) return;
-    final media = MediaQuery.of(context);
-    final screen = media.size;
 
-    // Reasonable initial placement (near center).
+    final screen = MediaQuery.of(context).size;
     final initial = Offset((screen.width - 420) / 2, (screen.height - 420) / 3);
-
     _offset = _clamp(initial);
   }
 
@@ -148,12 +141,10 @@ class _DraggableDialogHostState extends State<_DraggableDialogHost> {
               child: _DialogSurface(
                 key: _dialogKey,
                 title: widget.title,
+                contentBuilder: widget.contentBuilder,
                 onDragDelta: (delta) {
-                  setState(() {
-                    _offset = _clamp(_offset! + delta);
-                  });
+                  setState(() => _offset = _clamp(_offset! + delta));
                 },
-                child: widget.child,
               ),
             ),
           ],
@@ -163,17 +154,43 @@ class _DraggableDialogHostState extends State<_DraggableDialogHost> {
   }
 }
 
-class _DialogSurface extends StatelessWidget {
+class _DialogSurface extends StatefulWidget {
   const _DialogSurface({
     super.key,
     required this.title,
     required this.onDragDelta,
-    required this.child,
+    required this.contentBuilder,
   });
 
   final String title;
   final ValueChanged<Offset> onDragDelta;
-  final Widget child;
+  final Widget Function(BuildContext, ScrollController) contentBuilder;
+
+  @override
+  State<_DialogSurface> createState() => _DialogSurfaceState();
+}
+
+class _DialogSurfaceState extends State<_DialogSurface> {
+  late final ScrollController _scrollController = ScrollController();
+  bool _showThumb = false;
+  bool _dragging = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      if (_scrollController.hasClients) {
+        setState(() => _showThumb = true);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -181,25 +198,27 @@ class _DialogSurface extends StatelessWidget {
 
     final header = Material(
       color: theme.colorScheme.surfaceContainerHighest,
-      child: InkWell(
-        // Only the header is draggable, so scrolling content won’t fight drag.
-        onTap: () {},
+      child: MouseRegion(
+        cursor: _dragging
+            ? SystemMouseCursors.grabbing
+            : SystemMouseCursors.grab,
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
-          onPanUpdate: (details) => onDragDelta(details.delta),
+          onPanStart: (_) => setState(() => _dragging = true),
+          onPanEnd: (_) => setState(() => _dragging = false),
+          onPanCancel: () => setState(() => _dragging = false),
+          onPanUpdate: (details) => widget.onDragDelta(details.delta),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             child: Row(
               children: [
-                // On web/desktop, show a "move" cursor over the header.
-                if (kIsWeb)
-                  const Padding(
-                    padding: EdgeInsets.only(right: 8),
-                    child: Icon(Icons.open_with, size: 18),
-                  ),
+                const Padding(
+                  padding: EdgeInsets.only(right: 8),
+                  child: Icon(Icons.open_with, size: 18),
+                ),
                 Expanded(
                   child: Text(
-                    title,
+                    widget.title,
                     style: theme.textTheme.titleMedium,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -229,13 +248,14 @@ class _DialogSurface extends StatelessWidget {
           maxHeight: 600,
         ),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
           children: [
             header,
             Expanded(
               child: Scrollbar(
-                thumbVisibility: kIsWeb, // nicer on web
-                child: child,
+                controller: _scrollController,
+                thumbVisibility: kIsWeb && _showThumb,
+                notificationPredicate: (n) => n.depth == 0,
+                child: widget.contentBuilder(context, _scrollController),
               ),
             ),
             Padding(
