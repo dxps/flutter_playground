@@ -20,7 +20,11 @@ void main(List<String> arguments) async {
   final port = 8080;
 
   final handler = Pipeline()
-      .addMiddleware(corsAll())
+      .addMiddleware(
+        corsCredentials(allowedOrigins: {
+          'http://localhost:54662',
+        }),
+      )
       .addMiddleware(logRequests())
       .addMiddleware(cookieParser())
       .addHandler(registerControllers(db, useSecurity));
