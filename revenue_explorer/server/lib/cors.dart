@@ -13,7 +13,7 @@ Middleware corsCredentials({
           (allowedOrigins == null || allowedOrigins.contains(origin));
 
       final corsHeaders = <String, String>{
-        if (allowOrigin) 'access-control-allow-origin': origin!,
+        if (allowOrigin) 'access-control-allow-origin': origin,
         if (allowOrigin) 'vary': 'Origin',
         'access-control-allow-credentials': 'true',
         'access-control-allow-methods':

@@ -1,30 +1,44 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:revenue_explorer/preferences/cookies.dart';
-import 'http.dart';
+import 'package:dio/dio.dart';
+import 'package:revenue_explorer/http/client.dart';
+
+// Future<bool> revExLogIn(String email, String password) async {
+//   final response = await http.post(
+//     Uri.http(revexApiUrl, '/auth/login'),
+//     headers: revexDefaultHeaders,
+//     body: jsonEncode(<String, String>{
+//       'email': email,
+//       'password': password,
+//     }),
+//   );
+
+//   if (response.statusCode != 200) {
+//     return false;
+//   }
+
+//   await response.captureCookies();
+//   return true;
+// }
 
 Future<bool> revExLogIn(String email, String password) async {
-  final response = await http.post(
-    Uri.http(revexApiUrl, '/auth/login'),
-    headers: revexDefaultHeaders,
-    body: jsonEncode(<String, String>{
-      'email': email,
-      'password': password,
-    }),
-  );
-
-  if (response.statusCode != 200) {
+  try {
+    final Response res = await httpClient.post(
+      '/auth/login',
+      data: {'email': email, 'password': password},
+    );
+    return res.statusCode == 200;
+  } on DioException {
     return false;
   }
-
-  await response.captureCookies();
-  return true;
 }
 
-Future revExLogOut() async {
-  final response = await http.get(
-    Uri.http(revexApiUrl, '/auth/logout'),
-    headers: await revexDefaultHeaders.withCookies(),
-  );
-  await response.captureCookies();
+Future<void> revExLogOut() async {
+  await httpClient.get('/auth/logout');
 }
+
+// Future revExLogOut() async {
+//   final response = await http.get(
+//     Uri.http(revexApiUrl, '/auth/logout'),
+//     headers: await revexDefaultHeaders.withCookies(),
+//   );
+//   await response.captureCookies();
+// }
