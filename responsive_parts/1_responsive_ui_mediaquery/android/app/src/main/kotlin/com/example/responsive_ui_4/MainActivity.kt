@@ -1,4 +1,4 @@
-package com.example.responsive_ui_4
+package com.example.responsive_ui_mediaquery
 
 import io.flutter.embedding.android.FlutterActivity
 
