@@ -13,20 +13,64 @@ class PlaceDetailsWidget extends StatelessWidget {
     final color = Theme.of(context).primaryColor;
     final fontSize = MediaQuery.of(context).size.width * 0.025;
 
-    return ListView(
-      children: [
-        Image.asset(
-          place.image,
-          height: 320,
-          width: double.infinity,
-          fit: BoxFit.cover,
-        ),
-        buildTitle(fontSize),
-        buildButtons(color),
-        buildDescription(fontSize),
-      ],
+    return LayoutBuilder(
+      builder: (_, constraints) => constraints.maxWidth >= 600.0
+          ? buildLargeWidget(color, fontSize)
+          : buildSmallWidget(color, fontSize),
     );
   }
+
+  Widget buildSmallWidget(Color color, double fontSize) => ListView(
+    children: [
+      Image.asset(
+        place.image,
+        height: 320,
+        width: double.infinity,
+        fit: BoxFit.cover,
+      ),
+      buildTitle(fontSize),
+      buildButtons(color),
+      buildDescription(fontSize),
+    ],
+  );
+
+  Widget buildLargeWidget(Color color, double fontSize) =>
+      SingleChildScrollView(
+        child: Card(
+          clipBehavior: Clip.antiAlias,
+          elevation: 6,
+          margin: const EdgeInsets.all(10),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  children: [
+                    Image.asset(
+                      place.image,
+                      height: 320,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
+                    buildTitle(fontSize),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 24.0),
+                      child: buildButtons(color),
+                    ),
+                    buildDescription(fontSize),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
 
   Widget buildTitle(double fontSize) => Container(
     padding: const EdgeInsets.all(24),
@@ -76,7 +120,7 @@ class PlaceDetailsWidget extends StatelessWidget {
     child: AutoSizeText(
       place.description,
       minFontSize: 12,
-      maxFontSize: 22,
+      maxFontSize: 18,
       style: TextStyle(fontSize: fontSize),
     ),
   );

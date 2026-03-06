@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_tour/consts.dart';
 
 import '../model/place.dart';
 import '../widgets/place_details_widget.dart';
@@ -10,7 +11,12 @@ class DetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: Text(place.subtitle), centerTitle: true),
+    backgroundColor: grayColor,
+    appBar: AppBar(
+      title: Text(place.subtitle),
+      centerTitle: true,
+      backgroundColor: grayColor,
+    ),
     body: PlaceDetailsWidget(place: place),
   );
 }
