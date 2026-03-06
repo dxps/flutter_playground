@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'pages/home_page.dart';
@@ -10,6 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MaterialApp(
     debugShowCheckedModeBanner: false,
+    scrollBehavior: CustomScrollBehavior(),
 
     title: 'Responsive Tour',
     theme: ThemeData(
@@ -19,4 +21,12 @@ class MyApp extends StatelessWidget {
 
     home: const HomePage(),
   );
+}
+
+class CustomScrollBehavior extends MaterialScrollBehavior {
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+    PointerDeviceKind.touch,
+    PointerDeviceKind.mouse,
+  };
 }
