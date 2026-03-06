@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_tour/consts.dart';
 
 import '../widgets/drawer_widget.dart';
 import '../widgets/place_gallery_widget.dart';
@@ -12,8 +13,12 @@ class HomePage extends StatelessWidget {
     final isMobile = ResponsiveWidget.isMobile(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Responsive Tour')),
+      appBar: AppBar(
+        title: const Text('Responsive Tour'),
+        backgroundColor: grayColor,
+      ),
       drawer: isMobile ? const Drawer(child: DrawerWidget()) : null,
+      backgroundColor: Colors.grey[200],
       body: ResponsiveWidget(
         mobile: buildMobile(),
         tablet: buildTablet(),
@@ -24,9 +29,11 @@ class HomePage extends StatelessWidget {
 
   Widget buildMobile() => const PlaceGalleryWidget();
 
-  Widget buildTablet() => Container(
-    color: Colors.blue,
-    child: const Center(child: Text('Tablet Screen')),
+  Widget buildTablet() => Row(
+    children: [
+      Expanded(flex: 2, child: DrawerWidget()),
+      Expanded(flex: 5, child: PlaceGalleryWidget()),
+    ],
   );
 
   Widget buildDesktop() => Container(

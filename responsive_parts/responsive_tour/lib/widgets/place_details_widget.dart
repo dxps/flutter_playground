@@ -76,7 +76,7 @@ class PlaceDetailsWidget extends StatelessWidget {
     child: AutoSizeText(
       place.description,
       minFontSize: 12,
-      maxFontSize: 24,
+      maxFontSize: 22,
       style: TextStyle(fontSize: fontSize),
     ),
   );
