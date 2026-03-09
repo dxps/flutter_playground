@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     selectedPlace = allPlaces.firstWhere((place) => place.id == widget.placeId);
-    print("[_HomePageState] inited selectedPlace: id='${selectedPlace.id}' title='${selectedPlace.title}'");
+    debugPrint("[_HomePageState] inited selectedPlace: id='${selectedPlace.id}' title='${selectedPlace.title}'");
   }
 
   @override
@@ -33,7 +33,7 @@ class _HomePageState extends State<HomePage> {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.placeId != widget.placeId) {
       _syncSelectedPlace();
-      print("[_HomePageState] updated selectedPlace: id='${selectedPlace.id}' title='${selectedPlace.title}'");
+      debugPrint("[_HomePageState] updated selectedPlace: id='${selectedPlace.id}' title='${selectedPlace.title}'");
     }
   }
 
@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
   void changePlace(Place place) {
     setState(() => selectedPlace = place);
     context.go('/places/${place.id}');
-    print(
+    debugPrint(
       "[_HomePageState.changePlace] updated selectedPlace: id='${selectedPlace.id}' title='${selectedPlace.title}'",
     );
   }
