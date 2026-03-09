@@ -5,7 +5,7 @@ const allPlaces = <Place>[
     id: '1',
     image: 'images/fairymedows.jpg',
     title: 'Fairy Meadows',
-    subtitle: 'Gilgit-Baltistan',
+    state: 'Gilgit-Baltistan',
     description:
         'Tucked away in Gilgit-Baltistan, Fairy Meadows is a stunning alpine meadow surrounded by towering peaks, including the majestic Nanga Parbat. Its lush green landscapes, wildflowers, and panoramic views make it a paradise for hikers, photographers, and nature enthusiasts.Tucked away in Gilgit-Baltistan, Fairy Meadows is a stunning alpine meadow surrounded by towering peaks, including the majestic Nanga Parbat. Its lush green landscapes, wildflowers, and panoramic views make it a paradise for hikers, photographers, and nature enthusiasts.',
   ),
@@ -13,7 +13,7 @@ const allPlaces = <Place>[
     id: '2',
     image: 'images/hunzavalley.jpg',
     title: 'Hunza Valley',
-    subtitle: 'Gilgit-Baltistan',
+    state: 'Gilgit-Baltistan',
     description:
         ' Nestled in the heart of Gilgit-Baltistan, Hunza Valley offers a blend of natural beauty and cultural richness. With snow-capped peaks, terraced fields, crystal-clear lakes, and traditional villages, it presents breathtaking vistas at every turn.Nestled in the heart of Gilgit-Baltistan, Hunza Valley offers a blend of natural beauty and cultural richness. With snow-capped peaks, terraced fields, crystal-clear lakes, and traditional villages, it presents breathtaking vistas at every turn.',
   ),
@@ -21,7 +21,7 @@ const allPlaces = <Place>[
     id: '3',
     image: 'images/neelumvalley.jpg',
     title: 'Neelum Valley',
-    subtitle: 'Azad Kashmir',
+    state: 'Azad Kashmir',
     description:
         'Located in Azad Kashmir, Neelum Valley is a picturesque wonderland. Its lush green forests, meandering Neelum River, gushing waterfalls, and snow-covered peaks create a captivating landscape that lures nature lovers and adventurers alike.Located in Azad Kashmir, Neelum Valley is a picturesque wonderland. Its lush green forests, meandering Neelum River, gushing waterfalls, and snow-covered peaks create a captivating landscape that lures nature lovers and adventurers alike.',
   ),
@@ -29,7 +29,7 @@ const allPlaces = <Place>[
     id: '4',
     image: 'images/shanrila.jpg',
     title: 'Shangrila Resort',
-    subtitle: 'Gilgit-Baltistan',
+    state: 'Gilgit-Baltistan',
     description:
         'Located near Skardu, Shangrila Resort is a heavenly destination with turquoise lakes, blooming gardens, and the famous Shangrila Lake Resort offering a luxurious stay.Located near Skardu, Shangrila Resort is a heavenly destination with turquoise lakes, blooming gardens, and the famous Shangrila Lake Resort offering a luxurious stay.Located near Skardu, Shangrila Resort is a heavenly destination with turquoise lakes, blooming gardens, and the famous Shangrila Lake Resort offering a luxurious stay.',
   ),
@@ -37,7 +37,7 @@ const allPlaces = <Place>[
     id: '5',
     image: 'images/swat.jpg',
     title: 'Swat Valley',
-    subtitle: 'Khyber Pakhtunkhwa',
+    state: 'Khyber Pakhtunkhwa',
     description:
         'Often referred to as the "Switzerland of the East," Swat Valley boasts snow-covered peaks, lush green meadows, cascading waterfalls, and ancient Buddhist heritage sites.Often referred to as the "Switzerland of the East," Swat Valley boasts snow-covered peaks, lush green meadows, cascading waterfalls, and ancient Buddhist heritage sites.Often referred to as the "Switzerland of the East," Swat Valley boasts snow-covered peaks, lush green meadows, cascading waterfalls, and ancient Buddhist heritage sites.',
   ),
@@ -45,7 +45,7 @@ const allPlaces = <Place>[
     id: '6',
     image: 'images/naltar.jpg',
     title: 'Naltar Valley',
-    subtitle: 'Gilgit-Baltistan',
+    state: 'Gilgit-Baltistan',
     description:
         'Naltar Valley is known for its pristine beauty and vibrant colors. The valley is adorned with thick pine forests, turquoise lakes, and offers skiing opportunities in winters.',
   ),
@@ -53,7 +53,7 @@ const allPlaces = <Place>[
     id: '7',
     image: 'images/kalash.jpeg',
     title: 'Kalash Valley',
-    subtitle: 'Khyber Pakhtunkhwa',
+    state: 'Khyber Pakhtunkhwa',
     description:
         'The unique and culturally rich Kalash Valley is home to the indigenous Kalash people. The valley showcases traditional wooden houses, vibrant festivals, and stunning mountain landscapes.',
   ),
@@ -61,7 +61,7 @@ const allPlaces = <Place>[
     id: '8',
     image: 'images/mohenjo.jpeg',
     title: 'Mohenjo-daro',
-    subtitle: 'Sindh',
+    state: 'Sindh',
     description:
         'Mohenjo-daro is an archaeological site of an ancient Indus Valley Civilization. The well-preserved ruins offer insights into the life and architecture of this ancient civilization.',
   ),
@@ -69,7 +69,7 @@ const allPlaces = <Place>[
     id: '9',
     image: 'images/badshahi.jpg',
     title: 'Badshahi Mosque',
-    subtitle: 'Punjab',
+    state: 'Punjab',
     description:
         'Located in Lahore, Badshahi Mosque is a magnificent masterpiece of Mughal architecture. It is one of the largest mosques in the world and showcases intricate designs and grandeur.',
   ),
@@ -77,7 +77,7 @@ const allPlaces = <Place>[
     id: '10',
     image: 'images/makli.jpg',
     title: 'Makli Necropolis',
-    subtitle: 'Sindh',
+    state: 'Sindh',
     description:
         'Makli Necropolis is an ancient graveyard in Thatta, Sindh, featuring stunning mausoleums and tombs with intricate stone carvings, reflecting the rich history and artistry of the region.',
   ),
@@ -85,7 +85,7 @@ const allPlaces = <Place>[
     id: '11',
     image: 'images/fort.jpg',
     title: 'Lahore Fort',
-    subtitle: 'Punjab',
+    state: 'Punjab',
     description:
         'Lahore Fort, a UNESCO World Heritage Site, is a symbol of the citys rich history. The fort showcases beautiful palaces, gardens, and the iconic Sheesh Mahal (Palace of Mirrors).',
   ),

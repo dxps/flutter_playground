@@ -35,12 +35,7 @@ class GridItemWidget extends StatelessWidget {
           footer: GridTileBar(
             backgroundColor: Colors.black45,
             title: AutoSizeText(place.title, minFontSize: 18, maxFontSize: 28, style: TextStyle(fontSize: fontSize)),
-            subtitle: AutoSizeText(
-              place.subtitle,
-              minFontSize: 14,
-              maxFontSize: 20,
-              style: TextStyle(fontSize: fontSize),
-            ),
+            subtitle: AutoSizeText(place.state, minFontSize: 14, maxFontSize: 20, style: TextStyle(fontSize: fontSize)),
           ),
           child: Ink.image(image: AssetImage(place.image), fit: BoxFit.cover),
         ),

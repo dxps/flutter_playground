@@ -19,34 +19,37 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late Place selectedPlace;
+  late Place place;
+  String? state;
 
   @override
   void initState() {
     super.initState();
-    selectedPlace = allPlaces.firstWhere((place) => place.id == widget.placeId);
-    debugPrint("[_HomePageState] inited selectedPlace: id='${selectedPlace.id}' title='${selectedPlace.title}'");
+    place = allPlaces.firstWhere((place) => place.id == widget.placeId, orElse: () => allPlaces.first);
+    debugPrint("[_HomePageState] inited place: id='${place.id}' title='${place.title}'.");
   }
 
   @override
   void didUpdateWidget(covariant HomePage oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.placeId != widget.placeId) {
-      _syncSelectedPlace();
-      debugPrint("[_HomePageState] updated selectedPlace: id='${selectedPlace.id}' title='${selectedPlace.title}'");
+      place = allPlaces.firstWhere((place) => place.id == widget.placeId, orElse: () => allPlaces.first);
+      debugPrint("[_HomePageState] on didUpdateWidget, updated place: id='${place.id}' title='${place.title}'.");
     }
   }
 
-  void _syncSelectedPlace() {
-    selectedPlace = allPlaces.firstWhere((place) => place.id == widget.placeId, orElse: () => allPlaces.first);
+  void changePlace(Place place) {
+    setState(() => this.place = place);
+    context.go('/places/${place.id}');
+    debugPrint("[_HomePageState] updated place: id='${this.place.id}' title='${this.place.title}'.");
   }
 
-  void changePlace(Place place) {
-    setState(() => selectedPlace = place);
-    context.go('/places/${place.id}');
-    debugPrint(
-      "[_HomePageState.changePlace] updated selectedPlace: id='${selectedPlace.id}' title='${selectedPlace.title}'",
-    );
+  void changeState(String? state) {
+    setState(() {
+      this.state = state == this.state ? null : state;
+      place = allPlaces.firstWhere((place) => place.state == state);
+    });
+    debugPrint("[_HomePageState] updated state='$state' and place: id='${place.id}' title='${place.title}'.");
   }
 
   @override
@@ -55,24 +58,36 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: AppBar(title: const Text('Responsive Tour'), backgroundColor: grayColor),
-      drawer: isMobile ? const Drawer(child: DrawerWidget()) : null,
+      drawer: isMobile
+          ? Drawer(
+              child: DrawerWidget(onStateChanged: changeState, state: state),
+            )
+          : null,
       backgroundColor: Colors.grey[200],
       body: ResponsiveWidget(mobile: buildMobile(), tablet: buildTablet(), desktop: buildDesktop()),
     );
   }
 
-  Widget buildMobile() => PlaceGalleryWidget(onPlaceChanged: changePlace);
+  Widget buildMobile() => PlaceGalleryWidget(onPlaceChanged: changePlace, state: state);
 
   Widget buildTablet() => Row(
     children: [
-      Expanded(flex: 2, child: DrawerWidget()),
-      Expanded(flex: 5, child: PlaceGalleryWidget(onPlaceChanged: changePlace)),
+      Expanded(
+        flex: 2,
+        child: DrawerWidget(onStateChanged: changeState, state: state),
+      ),
+      Expanded(
+        flex: 5,
+        child: PlaceGalleryWidget(onPlaceChanged: changePlace, state: state),
+      ),
     ],
   );
 
   Widget buildDesktop() => Row(
     children: [
-      const Expanded(child: DrawerWidget()),
+      Expanded(
+        child: DrawerWidget(onStateChanged: changeState, state: state),
+      ),
       Expanded(flex: 3, child: buildBody()),
     ],
   );
@@ -82,8 +97,10 @@ class _HomePageState extends State<HomePage> {
     padding: EdgeInsets.all(8.0),
     child: Column(
       children: [
-        Expanded(child: PlaceGalleryWidget(onPlaceChanged: changePlace, isHorizontal: true)),
-        Expanded(flex: 2, child: PlaceDetailsWidget(place: selectedPlace)),
+        Expanded(
+          child: PlaceGalleryWidget(onPlaceChanged: changePlace, isHorizontal: true, state: state),
+        ),
+        Expanded(flex: 2, child: PlaceDetailsWidget(place: place)),
       ],
     ),
   );

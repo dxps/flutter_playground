@@ -14,7 +14,7 @@ class DetailsPage extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
     backgroundColor: grayColor,
     appBar: AppBar(
-      title: Text(place.subtitle),
+      title: Text(place.state),
       centerTitle: true,
       backgroundColor: grayColor,
       leading: BackButton(

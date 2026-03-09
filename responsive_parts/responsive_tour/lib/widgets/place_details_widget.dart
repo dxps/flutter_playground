@@ -14,63 +14,48 @@ class PlaceDetailsWidget extends StatelessWidget {
     final fontSize = MediaQuery.of(context).size.width * 0.025;
 
     return LayoutBuilder(
-      builder: (_, constraints) => constraints.maxWidth >= 600.0
-          ? buildLargeWidget(color, fontSize)
-          : buildSmallWidget(color, fontSize),
+      builder: (_, constraints) =>
+          constraints.maxWidth >= 600.0 ? buildLargeWidget(color, fontSize) : buildSmallWidget(color, fontSize),
     );
   }
 
   Widget buildSmallWidget(Color color, double fontSize) => ListView(
     children: [
-      Image.asset(
-        place.image,
-        height: 320,
-        width: double.infinity,
-        fit: BoxFit.cover,
-      ),
+      Image.asset(place.image, height: 320, width: double.infinity, fit: BoxFit.cover),
       buildTitle(fontSize),
       buildButtons(color),
       buildDescription(fontSize),
     ],
   );
 
-  Widget buildLargeWidget(Color color, double fontSize) =>
-      SingleChildScrollView(
-        child: Card(
-          clipBehavior: Clip.antiAlias,
-          elevation: 6,
-          margin: const EdgeInsets.all(10),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Column(
-                  children: [
-                    Image.asset(
-                      place.image,
-                      height: 320,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
-                    buildTitle(fontSize),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 24.0),
-                      child: buildButtons(color),
-                    ),
-                    buildDescription(fontSize),
-                  ],
-                ),
-              ),
-            ],
+  Widget buildLargeWidget(Color color, double fontSize) => SingleChildScrollView(
+    child: Card(
+      clipBehavior: Clip.antiAlias,
+      elevation: 6,
+      margin: const EdgeInsets.all(10),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Column(
+              children: [
+                Image.asset(place.image, height: 320, width: double.infinity, fit: BoxFit.cover),
+                buildTitle(fontSize),
+              ],
+            ),
           ),
-        ),
-      );
+          Expanded(
+            child: Column(
+              children: [
+                Padding(padding: const EdgeInsets.only(top: 24.0), child: buildButtons(color)),
+                buildDescription(fontSize),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 
   Widget buildTitle(double fontSize) => Container(
     padding: const EdgeInsets.all(24),
@@ -84,14 +69,11 @@ class PlaceDetailsWidget extends StatelessWidget {
                 place.title,
                 minFontSize: 16,
                 maxFontSize: 32,
-                style: TextStyle(
-                  fontSize: fontSize,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8.0),
               AutoSizeText(
-                place.subtitle,
+                place.state,
                 minFontSize: 12,
                 maxFontSize: 22,
                 style: TextStyle(color: Colors.grey[500], fontSize: fontSize),
@@ -117,12 +99,7 @@ class PlaceDetailsWidget extends StatelessWidget {
 
   Widget buildDescription(double fontSize) => Padding(
     padding: const EdgeInsets.all(24),
-    child: AutoSizeText(
-      place.description,
-      minFontSize: 12,
-      maxFontSize: 18,
-      style: TextStyle(fontSize: fontSize),
-    ),
+    child: AutoSizeText(place.description, minFontSize: 12, maxFontSize: 18, style: TextStyle(fontSize: fontSize)),
   );
 
   Widget buildButton(Color color, IconData icon, String label) => Padding(
