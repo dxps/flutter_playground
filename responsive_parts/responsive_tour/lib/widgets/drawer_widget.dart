@@ -1,13 +1,15 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:responsive_tour/consts.dart';
 
 import '../data/states.dart';
 
 class DrawerWidget extends StatelessWidget {
-  final String? state;
   final ValueChanged<String> onStateChanged;
+  final String? state;
+  final ScreenSize screenSize;
 
-  const DrawerWidget({super.key, this.state, required this.onStateChanged});
+  const DrawerWidget({super.key, this.state, required this.onStateChanged, required this.screenSize});
 
   @override
   Widget build(BuildContext context) {
@@ -21,24 +23,31 @@ class DrawerWidget extends StatelessWidget {
     );
   }
 
-  Widget buildHeader(double fontSize) => DrawerHeader(
-    padding: EdgeInsets.zero,
-    decoration: const BoxDecoration(
-      image: DecorationImage(fit: BoxFit.cover, image: AssetImage('images/swat.jpg')),
-    ),
-    child: Align(
-      alignment: Alignment.bottomLeft,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-        decoration: BoxDecoration(
-          color: Colors.black.withAlpha(120),
-          borderRadius: const BorderRadius.only(topRight: Radius.circular(16)),
-        ),
-        child: AutoSizeText(
-          'Pakistan',
-          minFontSize: 22,
-          maxFontSize: 30,
-          style: TextStyle(fontSize: fontSize, color: Colors.white),
+  Widget buildHeader(double fontSize) => Container(
+    margin: switch (screenSize) {
+      ScreenSize.mobile => EdgeInsets.only(top: 0),
+      ScreenSize.tablet => EdgeInsets.only(top: 12),
+      ScreenSize.desktop => EdgeInsets.only(top: 4),
+    },
+    child: DrawerHeader(
+      padding: EdgeInsets.zero,
+      decoration: const BoxDecoration(
+        image: DecorationImage(fit: BoxFit.cover, image: AssetImage('images/swat.jpg')),
+      ),
+      child: Align(
+        alignment: Alignment.bottomLeft,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+          decoration: BoxDecoration(
+            color: Colors.black.withAlpha(120),
+            borderRadius: const BorderRadius.only(topRight: Radius.circular(16)),
+          ),
+          child: AutoSizeText(
+            'Pakistan',
+            minFontSize: 22,
+            maxFontSize: 30,
+            style: TextStyle(fontSize: fontSize, color: Colors.white),
+          ),
         ),
       ),
     ),

@@ -5,8 +5,8 @@ import 'package:go_router/go_router.dart';
 import '../model/place.dart';
 import '../widgets/responsive_widget.dart';
 
-class GridItemWidget extends StatelessWidget {
-  const GridItemWidget({required this.place, required this.onPlaceChanged, super.key});
+class GalleryItemWidget extends StatelessWidget {
+  const GalleryItemWidget({required this.place, required this.onPlaceChanged, super.key});
 
   final Place place;
   final ValueChanged<Place> onPlaceChanged;

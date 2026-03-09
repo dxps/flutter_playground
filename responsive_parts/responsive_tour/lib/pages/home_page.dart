@@ -60,10 +60,10 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(title: const Text('Responsive Tour'), backgroundColor: grayColor),
       drawer: isMobile
           ? Drawer(
-              child: DrawerWidget(onStateChanged: changeState, state: state),
+              child: DrawerWidget(onStateChanged: changeState, state: state, screenSize: ScreenSize.mobile),
             )
           : null,
-      backgroundColor: Colors.grey[200],
+      backgroundColor: grayColor,
       body: ResponsiveWidget(mobile: buildMobile(), tablet: buildTablet(), desktop: buildDesktop()),
     );
   }
@@ -74,7 +74,7 @@ class _HomePageState extends State<HomePage> {
     children: [
       Expanded(
         flex: 2,
-        child: DrawerWidget(onStateChanged: changeState, state: state),
+        child: DrawerWidget(onStateChanged: changeState, state: state, screenSize: ScreenSize.tablet),
       ),
       Expanded(
         flex: 5,
@@ -86,15 +86,15 @@ class _HomePageState extends State<HomePage> {
   Widget buildDesktop() => Row(
     children: [
       Expanded(
-        child: DrawerWidget(onStateChanged: changeState, state: state),
+        child: DrawerWidget(onStateChanged: changeState, state: state, screenSize: ScreenSize.desktop),
       ),
-      Expanded(flex: 3, child: buildBody()),
+      Expanded(flex: 3, child: buildDesktopBody()),
     ],
   );
 
-  Widget buildBody() => Container(
+  Widget buildDesktopBody() => Container(
     color: grayColor,
-    padding: EdgeInsets.all(8.0),
+    padding: EdgeInsets.only(left: 8, right: 8, bottom: 8),
     child: Column(
       children: [
         Expanded(
