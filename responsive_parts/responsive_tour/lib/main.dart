@@ -1,19 +1,31 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:responsive_tour/data/places.dart';
+import 'package:responsive_tour/pages/details_page.dart';
 
 import 'pages/home_page.dart';
 
 final GoRouter _router = GoRouter(
   initialLocation: '/',
   routes: <RouteBase>[
-    GoRoute(path: '/', redirect: (context, state) => '/places/1'),
+    GoRoute(path: '/', builder: (context, state) => const HomePage()),
     GoRoute(
       path: '/places/:id',
       builder: (context, state) {
         final id = state.pathParameters['id']!;
         return HomePage(placeId: id);
       },
+      routes: [
+        GoRoute(
+          path: 'details',
+          builder: (context, state) {
+            final id = state.pathParameters['id']!;
+            final place = allPlaces.firstWhere((p) => p.id == id);
+            return DetailsPage(place: place);
+          },
+        ),
+      ],
     ),
   ],
 );

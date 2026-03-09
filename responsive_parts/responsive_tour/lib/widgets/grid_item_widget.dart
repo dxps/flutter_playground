@@ -1,15 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:responsive_tour/model/place.dart';
-import 'package:responsive_tour/pages/details_page.dart';
-import 'package:responsive_tour/widgets/responsive_widget.dart';
+import 'package:go_router/go_router.dart';
+
+import '../model/place.dart';
+import '../widgets/responsive_widget.dart';
 
 class GridItemWidget extends StatelessWidget {
-  const GridItemWidget({
-    required this.place,
-    required this.onPlaceChanged,
-    super.key,
-  });
+  const GridItemWidget({required this.place, required this.onPlaceChanged, super.key});
 
   final Place place;
   final ValueChanged<Place> onPlaceChanged;
@@ -28,11 +25,8 @@ class GridItemWidget extends StatelessWidget {
           final isTablet = ResponsiveWidget.isTablet(context);
 
           if (isMobile || isTablet) {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => DetailsPage(place: place),
-              ),
-            );
+            context.push('/places/${place.id}/details');
+            context.go('/places/${place.id}/details');
           } else {
             onPlaceChanged(place);
           }
@@ -40,12 +34,7 @@ class GridItemWidget extends StatelessWidget {
         child: GridTile(
           footer: GridTileBar(
             backgroundColor: Colors.black45,
-            title: AutoSizeText(
-              place.title,
-              minFontSize: 18,
-              maxFontSize: 28,
-              style: TextStyle(fontSize: fontSize),
-            ),
+            title: AutoSizeText(place.title, minFontSize: 18, maxFontSize: 28, style: TextStyle(fontSize: fontSize)),
             subtitle: AutoSizeText(
               place.subtitle,
               minFontSize: 14,

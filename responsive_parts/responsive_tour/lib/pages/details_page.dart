@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:responsive_tour/consts.dart';
 
 import '../model/place.dart';
@@ -16,6 +17,12 @@ class DetailsPage extends StatelessWidget {
       title: Text(place.subtitle),
       centerTitle: true,
       backgroundColor: grayColor,
+      leading: BackButton(
+        onPressed: () {
+          context.pop();
+          context.go('/');
+        },
+      ),
     ),
     body: PlaceDetailsWidget(place: place),
   );

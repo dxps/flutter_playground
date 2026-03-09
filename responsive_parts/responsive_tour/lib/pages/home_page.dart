@@ -44,6 +44,9 @@ class _HomePageState extends State<HomePage> {
   void changePlace(Place place) {
     setState(() => selectedPlace = place);
     context.go('/places/${place.id}');
+    print(
+      "[_HomePageState.changePlace] updated selectedPlace: id='${selectedPlace.id}' title='${selectedPlace.title}'",
+    );
   }
 
   @override
