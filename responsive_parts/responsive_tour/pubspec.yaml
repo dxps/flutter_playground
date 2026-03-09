@@ -36,6 +36,8 @@ dependencies:
   cupertino_icons: ^1.0.8
   auto_size_text: ^3.0.0
 
+  go_router: ^17.0.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

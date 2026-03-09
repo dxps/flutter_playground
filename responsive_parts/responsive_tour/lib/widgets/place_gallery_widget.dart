@@ -8,11 +8,7 @@ class PlaceGalleryWidget extends StatelessWidget {
   final ValueChanged<Place> onPlaceChanged;
   final bool isHorizontal;
 
-  const PlaceGalleryWidget({
-    super.key,
-    required this.onPlaceChanged,
-    this.isHorizontal = false,
-  });
+  const PlaceGalleryWidget({super.key, required this.onPlaceChanged, this.isHorizontal = false});
 
   @override
   Widget build(BuildContext context) => Container(
@@ -24,12 +20,7 @@ class PlaceGalleryWidget extends StatelessWidget {
       crossAxisSpacing: 8,
       padding: const EdgeInsets.all(8),
       childAspectRatio: 1 / 1.2,
-      children: allPlaces
-          .map<Widget>(
-            (place) =>
-                GridItemWidget(place: place, onPlaceChanged: onPlaceChanged),
-          )
-          .toList(),
+      children: allPlaces.map<Widget>((place) => GridItemWidget(place: place, onPlaceChanged: onPlaceChanged)).toList(),
     ),
   );
 }
