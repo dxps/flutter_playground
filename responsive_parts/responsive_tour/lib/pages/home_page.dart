@@ -25,6 +25,20 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     selectedPlace = allPlaces.firstWhere((place) => place.id == widget.placeId);
+    print("[_HomePageState] inited selectedPlace: id='${selectedPlace.id}' title='${selectedPlace.title}'");
+  }
+
+  @override
+  void didUpdateWidget(covariant HomePage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.placeId != widget.placeId) {
+      _syncSelectedPlace();
+      print("[_HomePageState] updated selectedPlace: id='${selectedPlace.id}' title='${selectedPlace.title}'");
+    }
+  }
+
+  void _syncSelectedPlace() {
+    selectedPlace = allPlaces.firstWhere((place) => place.id == widget.placeId, orElse: () => allPlaces.first);
   }
 
   void changePlace(Place place) {

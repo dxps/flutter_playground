@@ -12,7 +12,6 @@ final GoRouter _router = GoRouter(
       path: '/places/:id',
       builder: (context, state) {
         final id = state.pathParameters['id']!;
-        print('On initial page: $id');
         return HomePage(placeId: id);
       },
     ),
