@@ -1,5 +1,5 @@
 name: blocify
-description: "A project that uses the flutter_bloc package to manage state."
+description: "A project that uses the flutter_bloc package to manage the state."
 
 publish_to: "none"
 
