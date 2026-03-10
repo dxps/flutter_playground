@@ -1,16 +1,63 @@
 # blocify
 
-A new Flutter project.
+A project that uses the flutter_bloc package to manage the state.
 
-## Getting Started
+<br/>
 
-This project is a starting point for a Flutter application.
+## About
 
-A few resources to get you started if this is your first Flutter project:
+Using BLoC:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- The state can be any of the three subclasses of `LoadImageState`.
+- The events that are emitted are `LoadButtonPressedEvent` and `RemoveButtonPressedEvent`, both as subclasses of `LoadUnloadImageEvent`.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+The flow of the state change is like this:
+
+- Initially, as no image is loaded, the user clicks _Load Image_ button.
+- The button handler notifies the BLoC of the `LoadButtonPressedEvent`.
+- The BLoC - implemented in `LoadUnloadImageBloc` - handles the event:
+    - First, it changes the state to `ImageLoadingState` by emitting it.
+    - Next, it gets the `imageUrl` from the event, and changes the state to `ImageLoadedState` by emitting it.
+    - Finally, it changes the state to `ImageLoadedState` (with the received `imageUrl`) by emitting it.
+
+```
+      ┌────────────┐
+      │   Button   │
+      └────────────┘
+             │
+             │
+             │notifies the BLoC with
+             │
+             │
+             ▼
+╔════════════════════════╗
+║ LoadButtonPressedEvent ║
+╚════════════════════════╝
+             │
+             │
+             │   ╔════════════╗
+             └──▶║    BLoC    ║
+                 ╚════════════╝
+                        │
+                        │1. emits                  ┌───────────────────┐    reflected in    ┏━━━━━━━━━━━━━━━━━┓
+                        ├─────────────────────────▶│ ImageLoadingState ├───────────────────▶┃ LoadImageScreen ┃
+                        │                          └───────────────────┘                    ┗━━━━━━━━━━━━━━━━━┛
+                        │
+                        │2. processes the event    ┌──────────────────────────┐
+                        ├─────────────────────────▶│ gets imageUrl from event │
+                        │                          └──────────────────────────┘
+                        │
+                        │3. emits                  ┌──────────────────┐     reflected in    ┏━━━━━━━━━━━━━━━━━┓
+                        └─────────────────────────▶│ ImageLoadedState │────────────────────▶┃ LoadImageScreen ┃
+                                                   └──────────────────┘                     ┗━━━━━━━━━━━━━━━━━┛
+```
+
+<br/>
+
+## Usage
+
+Run the project, for example, using the Web version of it with the command `flutter run -d chrome`.
+
+```
+
+```

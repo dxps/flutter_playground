@@ -52,7 +52,7 @@ class _LoadImageScreenState extends State<LoadImageScreen> {
                         border: Border.all(color: Colors.grey.shade300, width: 1.0),
                         borderRadius: BorderRadius.circular(10.0),
                       ),
-                      child: Image.network(imageUrl, height: 120.0, width: 250.0),
+                      child: Image.network(state.imageUrl, height: 120.0, width: 250.0),
                     ),
                     const SizedBox(height: 50),
                     ElevatedButton(
@@ -74,7 +74,7 @@ class _LoadImageScreenState extends State<LoadImageScreen> {
                     const SizedBox(height: 50),
                     ElevatedButton(
                       onPressed: () {
-                        context.read<LoadUnloadImageBloc>().add(LoadButtonPressedEvent());
+                        context.read<LoadUnloadImageBloc>().add(LoadButtonPressedEvent(imageUrl: imageUrl));
                       },
                       child: const Text("Load Image"),
                     ),

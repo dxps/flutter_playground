@@ -8,7 +8,8 @@ class LoadUnloadImageBloc extends Bloc<LoadUnloadImageEvent, LoadImageState> {
     on<LoadButtonPressedEvent>((event, emit) async {
       emit(ImageLoadingState());
       await Future.delayed(const Duration(milliseconds: 500));
-      emit(ImageLoadedState());
+      String resultImage = event.imageUrl;
+      emit(ImageLoadedState(imageUrl: resultImage));
     });
     on<RemoveButtonPressedEvent>((event, emit) async {
       emit(ImageNotLoadedState());
