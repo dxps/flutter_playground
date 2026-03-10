@@ -36,6 +36,7 @@ class _LoadImageScreenState extends State<LoadImageScreen> {
           }
         },
         builder: (context, state) {
+          debugPrint("BLoC Rebuilding.");
           switch (state) {
             case ImageLoadingState():
               return const Center(child: CircularProgressIndicator());
@@ -73,6 +74,12 @@ class _LoadImageScreenState extends State<LoadImageScreen> {
                         context.read<LoadUnloadImageBloc>().add(RemoveButtonPressedEvent());
                       },
                       child: const Text("Unload images"),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        context.read<LoadUnloadImageBloc>().add(LoadButtonPressedEvent());
+                      },
+                      child: const Text("Load images"),
                     ),
                   ],
                 ),

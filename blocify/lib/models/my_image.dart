@@ -1,8 +1,10 @@
-class MyImage {
+import 'package:equatable/equatable.dart';
+
+class MyImage extends Equatable {
   final String url;
   final double size;
 
-  MyImage({required this.url, required this.size});
+  const MyImage({required this.url, required this.size});
 
   factory MyImage.fromJson(Map<String, dynamic> json) {
     return MyImage(
@@ -10,4 +12,7 @@ class MyImage {
       size: json['size'],
     );
   }
+
+  @override
+  List<Object?> get props => [url, size];
 }
