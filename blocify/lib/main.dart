@@ -1,8 +1,8 @@
-import 'package:blocify/blocs/load_image_bloc/load_image_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import './screens/load_image_screen.dart';
+import 'blocs/load_image_bloc/load_image_bloc.dart';
+import 'screens/load_image_screen.dart';
 
 void main() {
   runApp(const MyApp());

@@ -13,8 +13,6 @@ class LoadImageScreen extends StatefulWidget {
 }
 
 class _LoadImageScreenState extends State<LoadImageScreen> {
-  String imageUrl = "https://lwfiles.mycourse.app/droidcon-public/f11ed54687792408d5dfc847bf926bae.png";
-
   @override
   Widget build(BuildContext context) {
     debugPrint("Complete UI Rebuild");
@@ -31,8 +29,8 @@ class _LoadImageScreenState extends State<LoadImageScreen> {
           if (state is ImageLoadedState) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text("Image successfully loaded"),
-                duration: Duration(seconds: 1),
+                content: Text("${state.images.length} images successfully loaded."),
+                duration: Duration(seconds: 2),
               ),
             );
           }
@@ -43,7 +41,7 @@ class _LoadImageScreenState extends State<LoadImageScreen> {
               return const Center(child: CircularProgressIndicator());
 
             case ImageLoadedState():
-              return Center(
+              return SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -52,14 +50,29 @@ class _LoadImageScreenState extends State<LoadImageScreen> {
                         border: Border.all(color: Colors.grey.shade300, width: 1.0),
                         borderRadius: BorderRadius.circular(10.0),
                       ),
-                      child: Image.network(state.imageUrl, height: 120.0, width: 250.0),
+                      child: ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.symmetric(horizontal: 60.0, vertical: 30),
+                        itemCount: state.images.length,
+                        itemBuilder: (context, index) {
+                          var image = state.images[index];
+                          return Card(
+                            child: Image.asset(
+                              image.url,
+                              width: image.size,
+                              height: image.size,
+                            ),
+                          );
+                        },
+                      ),
                     ),
                     const SizedBox(height: 50),
                     ElevatedButton(
                       onPressed: () {
                         context.read<LoadUnloadImageBloc>().add(RemoveButtonPressedEvent());
                       },
-                      child: const Text("Remove image"),
+                      child: const Text("Unload images"),
                     ),
                   ],
                 ),
@@ -70,13 +83,13 @@ class _LoadImageScreenState extends State<LoadImageScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("No image loaded"),
+                    const Text("No images loaded."),
                     const SizedBox(height: 50),
                     ElevatedButton(
                       onPressed: () {
-                        context.read<LoadUnloadImageBloc>().add(LoadButtonPressedEvent(imageUrl: imageUrl));
+                        context.read<LoadUnloadImageBloc>().add(LoadButtonPressedEvent());
                       },
-                      child: const Text("Load Image"),
+                      child: const Text("Load images"),
                     ),
                   ],
                 ),
