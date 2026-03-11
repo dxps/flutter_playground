@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'blocs/load_image_bloc/load_image_bloc.dart';
+import 'blocs/image_bloc/images_bloc.dart';
 import 'screens/load_image_screen.dart';
 
 void main() {
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => LoadUnloadImageBloc(),
+      create: (context) => ImagesBloc(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Blocify',
