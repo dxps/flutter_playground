@@ -7,9 +7,9 @@ import 'images_event.dart';
 import 'images_state.dart';
 
 class ImagesBloc extends Bloc<ImagesEvent, ImagesState> {
-  ImagesBloc() : super(ImageNotLoadedState()) {
+  ImagesBloc() : super(ImagesNotLoadedState()) {
     on<LoadButtonPressedEvent>((event, emit) async {
-      emit(ImageLoadingState());
+      emit(ImagesLoadingState());
       var fetchedImages = await Future.delayed(
         const Duration(seconds: 1),
         () {
@@ -17,10 +17,10 @@ class ImagesBloc extends Bloc<ImagesEvent, ImagesState> {
         },
       );
       var resultImages = fetchedImages.map((image) => MyImage.fromJson(image)).toList();
-      emit(ImageLoadedState(images: resultImages));
+      emit(ImagesLoadedState(images: resultImages));
     });
     on<RemoveButtonPressedEvent>((event, emit) async {
-      emit(ImageNotLoadedState());
+      emit(ImagesNotLoadedState());
     });
   }
 
