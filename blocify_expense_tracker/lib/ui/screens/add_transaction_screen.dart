@@ -82,7 +82,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                 controller: _amountController,
                 keyboardType: TextInputType.numberWithOptions(),
                 decoration: const InputDecoration(labelText: "Amount (\$)", border: OutlineInputBorder()),
-                onChanged: (_) => setState(() {}),
+                onChanged: (_) => setState(() {}), // To rebuild the widget while the user types.
               ),
               const SizedBox(height: defaultSpacing),
 
@@ -107,26 +107,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                 ),
               ),
               const SizedBox(height: defaultSpacing),
-              ElevatedButton(
-                onPressed: _isAmountValid
-                    ? () {
-                        if (_amountController.text.isNotEmpty &&
-                            RegExp(r'[0-9]+(\.[0-9]+)?').hasMatch(_amountController.text)) {
-                          debugPrint(
-                            "Category: ${_selectedCategory.name}, Amount: ${_amountController.text}, Date: ${formatDate(_selectedDate)}",
-                          );
-                        }
-                      }
-                    : null,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).primaryColorDark,
-                  disabledBackgroundColor: Colors.grey,
-                ),
-                child: const Text(
-                  "Submit",
-                  style: TextStyle(color: Colors.white, fontSize: defaultFontSize, fontWeight: FontWeight.w500),
-                ),
-              ),
+              _buildSubmitButton(),
             ],
           ),
         ),
@@ -191,5 +172,36 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
         ],
       ),
     );
+  }
+
+  Widget _buildSubmitButton() {
+    Widget submitButton = ElevatedButton(
+      onPressed: _isAmountValid
+          ? () {
+              debugPrint(
+                "Category: ${_selectedCategory.name}, Amount: ${_amountController.text}, Date: ${formatDate(_selectedDate)}",
+              );
+            }
+          : null,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Theme.of(context).primaryColorDark,
+        disabledBackgroundColor: Colors.grey,
+      ),
+      child: const Text(
+        'Submit',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: defaultFontSize,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+
+    return !_isAmountValid
+        ? Tooltip(
+            message: 'Enter a valid numeric amount.',
+            child: submitButton,
+          )
+        : submitButton;
   }
 }
