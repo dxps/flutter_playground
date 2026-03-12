@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'config/routes/app_routes.dart';
 import 'config/theme/app_theme.dart';
 import 'cubits/images_cubit.dart';
-import 'ui/screens/dashboard_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,7 +25,8 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Blocify Expense Tracker',
         theme: appTheme,
-        home: const DashboardScreen(),
+        initialRoute: AppRoutes.dashboard,
+        onGenerateRoute: AppRouter.onGenerateRoute,
       ),
     );
   }
