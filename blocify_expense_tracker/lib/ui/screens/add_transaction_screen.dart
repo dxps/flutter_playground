@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../blocs/transaction_bloc/add_transaction_bloc.dart';
+import '../../blocs/transaction_bloc/add_transaction_event.dart';
+import '../../blocs/transaction_bloc/add_transaction_state.dart';
 import '../../data/models/category_model.dart';
 import '../../data/models/transaction_model.dart';
 import '../../utils/category_list.dart';
 import '../../utils/constants.dart';
 import '../../utils/format_date.dart';
+import '../../utils/show_snackbar.dart';
 
 class AddTransactionScreen extends StatefulWidget {
   const AddTransactionScreen({super.key});
@@ -175,26 +180,53 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
   }
 
   Widget _buildSubmitButton() {
-    Widget submitButton = ElevatedButton(
-      onPressed: _isAmountValid
-          ? () {
-              debugPrint(
-                "Category: ${_selectedCategory.name}, Amount: ${_amountController.text}, Date: ${formatDate(_selectedDate)}",
-              );
-            }
-          : null,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Theme.of(context).primaryColorDark,
-        disabledBackgroundColor: Colors.grey,
-      ),
-      child: const Text(
-        'Submit',
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: defaultFontSize,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
+    Widget submitButton = BlocConsumer<AddTransactionBloc, AddTransactionState>(
+      listener: (context, state) {
+        if (state is AddTransactionSuccess) {
+          showSnackbar(context, state.successMessage);
+          setState(() {
+            _amountController.clear();
+            _selectedDate = DateTime.now();
+            _transactionId = DateTime.now().millisecondsSinceEpoch % (1 << 28);
+          });
+        } else if (state is AddTransactionError) {
+          showSnackbar(context, state.errorMessage);
+        }
+      },
+      builder: (context, state) {
+        if (state is AddTransactionLoading) {
+          return const CircularProgressIndicator();
+        }
+        return ElevatedButton(
+          onPressed: _isAmountValid
+              ? () {
+                  debugPrint(
+                    "Category: ${_selectedCategory.name}, Amount: ${_amountController.text}, Date: ${formatDate(_selectedDate)}",
+                  );
+                  var txn = TransactionModel(
+                    id: _transactionId,
+                    amount: double.parse(_amountController.text),
+                    category: _selectedCategory,
+                    type: _selectedType,
+                    date: _selectedDate,
+                  );
+                  context.read<AddTransactionBloc>().add(SubmitTransactionEvent(txn));
+                }
+              : null,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Theme.of(context).primaryColorDark,
+            disabledBackgroundColor: Colors.grey,
+          ),
+          child: const Text(
+            'Submit',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: defaultFontSize,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        );
+      },
     );
 
     return !_isAmountValid

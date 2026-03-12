@@ -1,32 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
+import 'blocs/transaction_bloc/add_transaction_bloc.dart';
 import 'config/routes/app_routes.dart';
 import 'config/theme/app_theme.dart';
 import 'cubits/images_cubit.dart';
+import 'data/models/transaction_model.dart';
+import 'data/repos/transaction_repo.dart';
+import 'utils/category_model_adapter.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Hive.initFlutter();
+  Hive.registerAdapter(CategoryModelAdapter());
+  Hive.registerAdapter(TransactionTypeAdapter());
+  Hive.registerAdapter(TransactionModelAdapter());
+
+  var transactionBox = await Hive.openBox<TransactionModel>("transactions");
+
+  runApp(MyApp(transactionBox: transactionBox));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final Box<TransactionModel> transactionBox;
+  const MyApp({super.key, required this.transactionBox});
 
   // This widget is the root of the application.
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        // Not used, but left as reference.
-        // BlocProvider(create: (context) => ImagesBloc()),
-        BlocProvider(create: (context) => ImagesCubit()),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Blocify Expense Tracker',
-        theme: appTheme,
-        initialRoute: AppRoutes.dashboard,
-        onGenerateRoute: AppRouter.onGenerateRoute,
+    return RepositoryProvider(
+      create: (context) => TransactionRepo(transactionBox),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => ImagesCubit()),
+          BlocProvider(create: (context) => AddTransactionBloc(context.read<TransactionRepo>())),
+        ],
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'blocify | Expense Tracker',
+          theme: appTheme,
+          initialRoute: AppRoutes.dashboard,
+          onGenerateRoute: AppRouter.onGenerateRoute,
+        ),
       ),
     );
   }

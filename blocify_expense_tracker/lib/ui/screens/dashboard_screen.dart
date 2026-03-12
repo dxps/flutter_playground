@@ -1,8 +1,8 @@
-import 'package:blocify_expense_tracker/config/routes/app_routes.dart';
-import 'package:blocify_expense_tracker/ui/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../../config/routes/app_routes.dart';
 import '../../utils/constants.dart';
+import 'home_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
