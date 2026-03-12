@@ -19,4 +19,35 @@ class TransactionRepo {
       throw Exception(e.toString());
     }
   }
+
+  Future<void> deleteTransaction(int id) async {
+    await _transactionBox.delete(id);
+  }
+
+  List<TransactionModel> getAllTransactions() {
+    return _transactionBox.values.toList();
+  }
+
+  List<TransactionModel> getLatestTransactions({int count = 10}) {
+    final allTxns = getAllTransactions();
+    allTxns.sort((a, b) => b.date.compareTo(a.date));
+    final latestTxns = allTxns.take(count).toList();
+    return latestTxns;
+  }
+
+  double getTotalIncome() {
+    final allTxns = getAllTransactions();
+    return allTxns.where((txn) => txn.type == TransactionType.income).fold(0.0, (sum, txn) => sum + txn.amount);
+  }
+
+  double getTotalExpenses() {
+    final allTxns = getAllTransactions();
+    return allTxns.where((txn) => txn.type == TransactionType.expense).fold(0.0, (sum, txn) => sum + txn.amount);
+  }
+
+  double getTotalBalance() {
+    double totalIncome = getTotalIncome();
+    double totalExpenses = getTotalExpenses();
+    return totalIncome - totalExpenses;
+  }
 }

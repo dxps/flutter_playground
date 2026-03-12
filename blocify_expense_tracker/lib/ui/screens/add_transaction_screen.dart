@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../blocs/transaction_bloc/add_transaction_bloc.dart';
 import '../../blocs/transaction_bloc/add_transaction_event.dart';
 import '../../blocs/transaction_bloc/add_transaction_state.dart';
+import '../../cubits/home/home_cubit.dart';
 import '../../data/models/category_model.dart';
 import '../../data/models/transaction_model.dart';
 import '../../utils/category_list.dart';
@@ -22,7 +23,6 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
   TransactionType _selectedType = TransactionType.expense;
   CategoryModel _selectedCategory = expenseCategoryList.first;
   DateTime _selectedDate = DateTime.now();
-  int _transactionId = DateTime.now().millisecondsSinceEpoch % (1 << 28);
   final TextEditingController _amountController = TextEditingController(text: "");
 
   @override
@@ -183,11 +183,11 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
     Widget submitButton = BlocConsumer<AddTransactionBloc, AddTransactionState>(
       listener: (context, state) {
         if (state is AddTransactionSuccess) {
+          context.read<HomeCubit>().loadTransactions();
           showSnackbar(context, state.successMessage);
           setState(() {
             _amountController.clear();
             _selectedDate = DateTime.now();
-            _transactionId = DateTime.now().millisecondsSinceEpoch % (1 << 28);
           });
         } else if (state is AddTransactionError) {
           showSnackbar(context, state.errorMessage);
@@ -204,7 +204,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                     "Category: ${_selectedCategory.name}, Amount: ${_amountController.text}, Date: ${formatDate(_selectedDate)}",
                   );
                   var txn = TransactionModel(
-                    id: _transactionId,
+                    id: _selectedDate.millisecondsSinceEpoch % (1 << 28),
                     amount: double.parse(_amountController.text),
                     category: _selectedCategory,
                     type: _selectedType,
