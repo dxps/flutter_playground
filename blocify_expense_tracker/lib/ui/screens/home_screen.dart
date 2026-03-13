@@ -1,10 +1,10 @@
-import 'package:blocify_expense_tracker/utils/show_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../cubits/home/home_cubit.dart';
 import '../../cubits/home_state.dart';
 import '../../utils/constants.dart';
+import '../../utils/show_snackbar.dart';
 import '../widgets/message_widget.dart';
 import '../widgets/summary_card.dart';
 import '../widgets/transaction_card.dart';

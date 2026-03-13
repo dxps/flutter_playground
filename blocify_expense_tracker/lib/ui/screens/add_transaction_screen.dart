@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../blocs/stats_bloc/stats_bloc.dart';
+import '../../blocs/stats_bloc/stats_events.dart';
 import '../../blocs/transaction_bloc/add_transaction_bloc.dart';
 import '../../blocs/transaction_bloc/add_transaction_event.dart';
 import '../../blocs/transaction_bloc/add_transaction_state.dart';
@@ -184,6 +186,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
       listener: (context, state) {
         if (state is AddTransactionSuccess) {
           context.read<HomeCubit>().loadTransactions();
+          context.read<StatsBloc>().add(const StatsLoadEvent());
           showSnackbar(context, state.successMessage);
           setState(() {
             _amountController.clear();

@@ -1,6 +1,7 @@
-import 'package:blocify_expense_tracker/ui/screens/add_transaction_screen.dart';
-import 'package:blocify_expense_tracker/ui/screens/dashboard_screen.dart';
 import 'package:flutter/material.dart';
+
+import '../../ui/screens/add_transaction_screen.dart';
+import '../../ui/screens/dashboard_screen.dart';
 
 class AppRoutes {
   static const String dashboard = "/";

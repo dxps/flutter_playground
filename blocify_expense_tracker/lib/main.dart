@@ -1,3 +1,4 @@
+import 'package:blocify_expense_tracker/blocs/stats_bloc/stats_bloc.dart';
 import 'package:blocify_expense_tracker/cubits/home/home_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(create: (context) => AddTransactionBloc(context.read<TransactionRepo>())),
           BlocProvider(create: (context) => HomeCubit(context.read<TransactionRepo>())),
+          BlocProvider(create: (context) => StatsBloc(context.read<TransactionRepo>())),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

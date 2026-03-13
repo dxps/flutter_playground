@@ -1,5 +1,6 @@
-import 'package:blocify_expense_tracker/data/models/transaction_model.dart';
 import 'package:hive/hive.dart';
+
+import '../models/transaction_model.dart';
 
 class TransactionRepo {
   late final Box<TransactionModel> _transactionBox;
@@ -49,5 +50,34 @@ class TransactionRepo {
     double totalIncome = getTotalIncome();
     double totalExpenses = getTotalExpenses();
     return totalIncome - totalExpenses;
+  }
+
+  Set<DateTime> getUniqueTransactionMonths() {
+    final txns = getAllTransactions();
+    final uniqueMonths = <DateTime>{};
+    for (var txn in txns) {
+      final monthYear = DateTime(txn.date.year, txn.date.month);
+      uniqueMonths.add(monthYear);
+    }
+    return uniqueMonths;
+  }
+
+  List<TransactionModel> getStatsTransactions({DateTime? date}) {
+    if (date == null) {
+      final uniqueMonths = getUniqueTransactionMonths();
+      if (uniqueMonths.isEmpty) {
+        return [];
+      }
+      final latestMonth = uniqueMonths.reduce((a, b) => a.isAfter(b) ? a : b);
+      date = latestMonth;
+    }
+    final allTxns = getAllTransactions();
+    final statsTxns = allTxns
+        .where(
+          (txn) => txn.date.year == date!.year && txn.date.month == date.month,
+        )
+        .toList();
+    statsTxns.sort((a, b) => b.date.compareTo(a.date));
+    return statsTxns;
   }
 }
