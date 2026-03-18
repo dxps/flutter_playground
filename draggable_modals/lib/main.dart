@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'widgets/modal/draggable_modal.dart';
 import 'widgets/modal/modal_content.dart';
 
+const bgColor = Color(0xFFf4f2ee);
+
 void main() {
   runApp(const MyApp());
 }
@@ -20,11 +22,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Multiple Draggable Modals',
       theme: ThemeData(
-        cardTheme: CardThemeData(
-          color: Colors.grey[300],
-        ),
         primaryColor: Colors.deepPurple[700],
-        scaffoldBackgroundColor: Colors.grey[300],
+        scaffoldBackgroundColor: bgColor,
       ),
       home: const MultiDraggableModalsPage(),
     );
@@ -150,7 +149,7 @@ class _MultiDraggableModalsPageState extends State<MultiDraggableModalsPage> {
       appBar: AppBar(
         title: const Text('Multiple Draggable Modals', style: TextStyle(fontSize: 16)),
         titleSpacing: 0,
-        backgroundColor: Colors.grey[300],
+        backgroundColor: bgColor,
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
@@ -192,8 +191,11 @@ class _MultiDraggableModalsPageState extends State<MultiDraggableModalsPage> {
       ),
       floatingActionButton: PopupMenuButton<_ModalMenuAction>(
         tooltip: 'Open modal',
-        padding: EdgeInsets.zero,
-        surfaceTintColor: Colors.white,
+        color: Colors.white,
+        menuPadding: const EdgeInsets.symmetric(vertical: 6),
+        clipBehavior: Clip.antiAlias,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        offset: const Offset(0, -50),
         onSelected: (action) {
           switch (action) {
             case _ModalMenuAction.notes:
@@ -212,10 +214,20 @@ class _MultiDraggableModalsPageState extends State<MultiDraggableModalsPage> {
           final bool tasksOpen = _isTypeOpen(_tasksType);
 
           return [
-            PopupMenuItem<_ModalMenuAction>(value: _ModalMenuAction.notes, enabled: !notesOpen, child: const Text('Open Notes')),
-            PopupMenuItem<_ModalMenuAction>(value: _ModalMenuAction.tasks, enabled: !tasksOpen, child: const Text('Open Tasks')),
-            const PopupMenuDivider(),
-            const PopupMenuItem<_ModalMenuAction>(value: _ModalMenuAction.generic, child: Text('Open Generic Modal')),
+            PopupMenuItem<_ModalMenuAction>(
+              value: _ModalMenuAction.notes,
+              enabled: !notesOpen,
+              height: 26,
+              child: const Text('Open Notes'),
+            ),
+            PopupMenuItem<_ModalMenuAction>(
+              value: _ModalMenuAction.tasks,
+              enabled: !tasksOpen,
+              height: 26,
+              child: const Text('Open Tasks'),
+            ),
+            PopupMenuDivider(height: 2, color: Colors.grey[300]),
+            const PopupMenuItem<_ModalMenuAction>(value: _ModalMenuAction.generic, height: 26, child: Text('Open Generic Modal')),
           ];
         },
         child: const FloatingActionButton.small(onPressed: null, child: Icon(Icons.add_rounded)),
