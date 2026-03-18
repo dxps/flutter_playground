@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'modal/modal_content.dart';
+import 'modal_content.dart';
 
 class DraggableModal extends StatefulWidget {
   const DraggableModal({

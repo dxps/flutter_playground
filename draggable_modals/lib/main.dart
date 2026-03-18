@@ -2,7 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
-import 'widgets/draggable_modal.dart';
+import 'widgets/modal/draggable_modal.dart';
 import 'widgets/modal/modal_content.dart';
 
 void main() {
@@ -19,7 +19,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Multiple Draggable Modals',
-      theme: ThemeData(scaffoldBackgroundColor: Colors.grey[500]),
+      theme: ThemeData(
+        cardTheme: CardThemeData(
+          color: Colors.grey[300],
+        ),
+        primaryColor: Colors.deepPurple[700],
+        scaffoldBackgroundColor: Colors.grey[300],
+      ),
       home: const MultiDraggableModalsPage(),
     );
   }
@@ -68,8 +74,8 @@ class _MultiDraggableModalsPageState extends State<MultiDraggableModalsPage> {
     _addModal(
       type: _tasksType,
       title: 'Tasks',
-      offset: const Offset(80, 180),
-      size: const Size(250, 180),
+      offset: const Offset(80, 160),
+      size: const Size(250, 190),
       child: const _TasksContent(),
     );
   }
@@ -87,13 +93,7 @@ class _MultiDraggableModalsPageState extends State<MultiDraggableModalsPage> {
     );
   }
 
-  void _addModal({
-    String? type,
-    required String title,
-    required Offset offset,
-    required Size size,
-    required Widget child,
-  }) {
+  void _addModal({String? type, required String title, required Offset offset, required Size size, required Widget child}) {
     setState(() {
       _modals.add(ModalData(id: _nextId++, type: type, title: title, offset: offset, size: size, child: child));
     });
@@ -123,9 +123,7 @@ class _MultiDraggableModalsPageState extends State<MultiDraggableModalsPage> {
       final double maxLeft = math.max(0, viewport.width - modal.size.width);
       final double maxTop = math.max(0, viewport.height - modal.size.height);
 
-      _modals[index] = modal.copyWith(
-        offset: Offset(nextOffset.dx.clamp(0.0, maxLeft), nextOffset.dy.clamp(0.0, maxTop)),
-      );
+      _modals[index] = modal.copyWith(offset: Offset(nextOffset.dx.clamp(0.0, maxLeft), nextOffset.dy.clamp(0.0, maxTop)));
     });
   }
 
@@ -150,11 +148,10 @@ class _MultiDraggableModalsPageState extends State<MultiDraggableModalsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Multiple Draggable Modals', style: TextStyle(fontSize: 18)),
-        backgroundColor: Colors.transparent,
+        title: const Text('Multiple Draggable Modals', style: TextStyle(fontSize: 16)),
         titleSpacing: 0,
+        backgroundColor: Colors.grey[300],
       ),
-      backgroundColor: Colors.transparent,
       body: LayoutBuilder(
         builder: (context, constraints) {
           final Size viewport = Size(constraints.maxWidth, constraints.maxHeight);
@@ -163,29 +160,22 @@ class _MultiDraggableModalsPageState extends State<MultiDraggableModalsPage> {
             children: [
               Positioned.fill(
                 child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(24),
-                    child: ConstrainedBox(
-                      constraints: const BoxConstraints(maxWidth: 700),
-                      child: Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: Text(
-                            'Use the "+" button to choose which modal to open.\n\n'
-                            'Notes and Tasks can only be opened once at a time,\n'
-                            'so their menu items are disabled while already visible.\n'
-                            'Generic modals can be opened repeatedly.\n\n'
-                            'Each modal can be moved by dragging its header,\n'
-                            'resized from the bottom-right corner, brought to front\n'
-                            'by tapping it, and closed individually.',
-                            style: Theme.of(context).textTheme.bodySmall,
-                          ),
-                        ),
-                      ),
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 700),
+                    child: Text(
+                      'Use the "+" button to choose which modal to open.\n\n'
+                      'Notes and Tasks can only be opened once at a time,\n'
+                      'so their menu items are disabled while already visible.\n'
+                      'Generic modals can be opened repeatedly.\n\n'
+                      'Each modal can be moved by dragging its header,\n'
+                      'resized from the bottom-right corner, brought to front\n'
+                      'by tapping it, and closed individually.',
+                      style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ),
                 ),
               ),
+
               for (final modal in _modals)
                 DraggableModal(
                   key: ValueKey(modal.id),
@@ -202,6 +192,8 @@ class _MultiDraggableModalsPageState extends State<MultiDraggableModalsPage> {
       ),
       floatingActionButton: PopupMenuButton<_ModalMenuAction>(
         tooltip: 'Open modal',
+        padding: EdgeInsets.zero,
+        surfaceTintColor: Colors.white,
         onSelected: (action) {
           switch (action) {
             case _ModalMenuAction.notes:
@@ -220,16 +212,8 @@ class _MultiDraggableModalsPageState extends State<MultiDraggableModalsPage> {
           final bool tasksOpen = _isTypeOpen(_tasksType);
 
           return [
-            PopupMenuItem<_ModalMenuAction>(
-              value: _ModalMenuAction.notes,
-              enabled: !notesOpen,
-              child: const Text('Open Notes'),
-            ),
-            PopupMenuItem<_ModalMenuAction>(
-              value: _ModalMenuAction.tasks,
-              enabled: !tasksOpen,
-              child: const Text('Open Tasks'),
-            ),
+            PopupMenuItem<_ModalMenuAction>(value: _ModalMenuAction.notes, enabled: !notesOpen, child: const Text('Open Notes')),
+            PopupMenuItem<_ModalMenuAction>(value: _ModalMenuAction.tasks, enabled: !tasksOpen, child: const Text('Open Tasks')),
             const PopupMenuDivider(),
             const PopupMenuItem<_ModalMenuAction>(value: _ModalMenuAction.generic, child: Text('Open Generic Modal')),
           ];
