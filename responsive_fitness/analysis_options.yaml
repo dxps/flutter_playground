@@ -6,7 +6,7 @@
 # invoked from the command line by running `flutter analyze`.
 
 formatter:
-  page_width: 120
+  page_width: 130
   trailing_commas: preserve
 
 # The following line activates a set of recommended lints for Flutter apps,

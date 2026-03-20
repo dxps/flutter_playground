@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:responsive_fitness/widgets/custom_card_widget.dart';
 
 import '../data/repos/health_data.dart';
 import '../utils/responsive.dart';
+import 'custom_card_widget.dart';
 
 class ActivityDetailsCard extends StatelessWidget {
   const ActivityDetailsCard({super.key});
@@ -25,29 +25,17 @@ class ActivityDetailsCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset(
-              healthDetails.healthData[index].icon,
-              width: 30,
-              height: 30,
-            ),
+            Image.asset(healthDetails.healthData[index].icon, width: 30, height: 30),
             Padding(
               padding: const EdgeInsets.only(top: 15, bottom: 4),
               child: Text(
                 healthDetails.healthData[index].value,
-                style: const TextStyle(
-                  fontSize: 18,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
-                ),
+                style: const TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.w600),
               ),
             ),
             Text(
               healthDetails.healthData[index].title,
-              style: const TextStyle(
-                fontSize: 13,
-                color: Colors.grey,
-                fontWeight: FontWeight.normal,
-              ),
+              style: const TextStyle(fontSize: 13, color: Colors.grey, fontWeight: FontWeight.normal),
             ),
           ],
         ),
