@@ -21,7 +21,8 @@ class SettingsPage extends StatelessWidget {
             const Text('Settings Page', style: TextStyle(fontSize: 20)),
             const SizedBox(height: 20),
             FilledButton(
-              // This works, but it won't change the URL in the browser.Thus, deep linking won't work
+              // This works, but it won't change the URL in the browser.
+              // Thus, deep linking (or refresh on that page) won't work.
               // onPressed: () => context.push(Routes.nestedProfilePage, extra: user),
               onPressed: () => context.go(Routes.nestedProfilePage, extra: user),
               child: const Text('View Profile Page'),
