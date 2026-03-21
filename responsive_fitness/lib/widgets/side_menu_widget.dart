@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_fitness/utils/responsive.dart';
 
 import '../data/repos/side_menu_data.dart';
 import '../utils/consts.dart';
@@ -19,7 +20,7 @@ class _SideMenuWidgetState extends State<SideMenuWidget> {
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 15),
-      color: backgroundColor,
+      color: Responsive.isDesktop(context) ? backgroundColor : cardBackgroundColor,
       child: ListView.builder(
         itemCount: data.menu.length,
         itemBuilder: (context, index) => buildMenuEntry(data, index),
