@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_fitness/widgets/summary_widget.dart';
 
 import '../widgets/dashboard_widget.dart';
 import '../widgets/side_menu_widget.dart';
@@ -14,7 +15,7 @@ class MainScreen extends StatelessWidget {
           children: [
             Expanded(flex: 2, child: SideMenuWidget()),
             Expanded(flex: 7, child: DashboardWidget()),
-            Expanded(flex: 3, child: Container(color: Colors.green)),
+            Expanded(flex: 3, child: SummaryWidget()),
           ],
         ),
       ),
