@@ -1,0 +1,5 @@
+## To always use a specific port.
+## Useful for reusing browser's storage.
+server:
+  host: "localhost"
+  port: 20001
