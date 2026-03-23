@@ -17,6 +17,7 @@ class CounterCubitScreen extends StatelessWidget {
 
             showDialog<void>(
               context: context,
+              barrierDismissible: false,
               builder: (_) {
                 return AlertDialog(
                   title: Text(
@@ -25,14 +26,14 @@ class CounterCubitScreen extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   content: Text(
-                    "The counter is ${state.counter}!\n\nMake the counter -1 and\nyou'll get a surprise screen.",
+                    "The (cubit based) counter is ${state.counter}.\n\nMake the counter -1 and\nyou'll get a surprise screen.",
                     textAlign: TextAlign.center,
                   ),
                 );
               },
             );
 
-            await Future.delayed(const Duration(seconds: 3));
+            await Future.delayed(const Duration(seconds: 2));
 
             if (navigator.mounted && navigator.canPop()) {
               navigator.pop();
