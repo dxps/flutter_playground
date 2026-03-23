@@ -1,0 +1,27 @@
+name: counters_bloc_cubit
+description: "A new Flutter project."
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.3
+
+dependencies:
+  bloc: ^9.2.0
+  cupertino_icons: ^1.0.8
+  equatable: ^2.0.8
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^9.1.1
+  flutter_web_plugins:
+    sdk: flutter
+  go_router: ^17.1.0
+
+dev_dependencies:
+  flutter_lints: ^6.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
